@@ -16,7 +16,7 @@ RhythmCraze is an online platform focused on selling concert tickets. It provide
 
 ***User Customized Experience:***
    - Personalized dashboards filled with your preferred artists, genres, and locations will help you personalize your journey.
-    - Explore a "My Favorites" section to find concert recommendations and upcoming events aligned with your tastes.
+   - Explore a "My Favorites" section to find concert recommendations and upcoming events aligned with your tastes.
     
  ***Artist Insights:***  Explore dedicated artist pages that provide an extensive look into their world, including upcoming concerts, biographies and discographies.
  
