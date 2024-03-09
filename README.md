@@ -3,9 +3,9 @@
 ### Team Name: TrioTech Masters
 **Members:**
 
-1.  Vintilescu Stefania - 1231 A - stefania.vintilescu@yahoo.com - [@stefi0703](https://github.com/stefi0703)
-2.  Dumitru Andreea - 1231 A - - [@Deea012002](https://github.com/Deea012002)
-3.  Olteanu Teodora - 1231 A - teodoraolteanu14@yahoo.com - [@teodoraolteanu14](https://github.com/teodoraolteanu14)
+1.  Vintilescu Stefania - 1231 A sgr1 - stefania.vintilescu@yahoo.com - [@stefi0703](https://github.com/stefi0703)
+2.  Dumitru Andreea - 1231 A sgr1-  delfinash0110@gmail.com - [@Deea012002](https://github.com/Deea012002)
+3.  Olteanu Teodora - 1231 A sgr2- teodoraolteanu14@yahoo.com - [@teodoraolteanu14](https://github.com/teodoraolteanu14)
 
 ## About RhythmCraze
 RhythmCraze is an online platform focused on selling concert tickets. It provides an engaging experience for both buyers and administrators. This README gives an overview of the capabilities for both admins and users/buyers.
