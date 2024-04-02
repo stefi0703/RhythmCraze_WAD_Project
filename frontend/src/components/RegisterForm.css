@@ -1,0 +1,27 @@
+/* RegisterForm.module.css */
+
+.formCard {
+  max-width: 500px;
+  margin: auto;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formCardTitle {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formCardBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.submitButton {
+  background-color: #198754; /* Bootstrap green */
+  border: none;
+}
+
+/* Add any additional styles you need for your form elements here */
