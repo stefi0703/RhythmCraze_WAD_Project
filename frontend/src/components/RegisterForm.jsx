@@ -9,6 +9,8 @@ import * as yup from "yup";
 import CustomNavbar from "./CustomNavbar";
 import styles from "./RegisterForm.css";
 import { Card, Container } from "react-bootstrap";
+import axios from "axios"; // Import Axios for making HTTP requests
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
   const { Formik } = formik;
@@ -26,6 +28,21 @@ function RegisterForm() {
     terms: yup.bool().required().oneOf([true], "Terms must be accepted"),
   });
 
+  const navigate = useNavigate(); // Initialize useHistory hook
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      // Make POST request to backend
+      await axios.post("/api/register", values);
+      console.log("Registration successful");
+      navigate.push("/login"); // Redirect to login page after successful registration
+    } catch (error) {
+      console.error("Registration failed:", error.message);
+      // Handle error
+    }
+    setSubmitting(false);
+  };
+
   return (
     <>
       <CustomNavbar />
@@ -40,7 +57,7 @@ function RegisterForm() {
 
             <Formik
               validationSchema={schema}
-              onSubmit={console.log}
+              onSubmit={handleSubmit}
               initialValues={{
                 firstName: "Mark",
                 lastName: "Otto",
@@ -201,7 +218,7 @@ function RegisterForm() {
                       id="validationFormikTerms"
                     />
                   </Form.Group>
-                  <Button type="submit" className={styles.submitButton}>
+                  <Button type="submit" variant="success">
                     Submit form
                   </Button>
                 </Form>

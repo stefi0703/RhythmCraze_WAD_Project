@@ -1,9 +1,12 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import React from "react";
+import {
+  Button,
+  Container,
+  Form,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 
 const CustomNavbar = () => {
   return (
@@ -19,9 +22,9 @@ const CustomNavbar = () => {
           >
             <Nav.Link href="/">Home</Nav.Link>
             <NavDropdown title="Features" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="/service1">Service 1</NavDropdown.Item>
-              <NavDropdown.Item href="/service2">Service 2</NavDropdown.Item>
-              <NavDropdown.Item href="/service3">Service 3</NavDropdown.Item>
+              <NavDropdown.Item href="/concerts">Concerts</NavDropdown.Item>
+              <NavDropdown.Item href="/artists">Artists</NavDropdown.Item>
+              <NavDropdown.Item href="/venues">Venues</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="/about">About</Nav.Link>
             <Nav.Link href="/contact">Contact</Nav.Link>
