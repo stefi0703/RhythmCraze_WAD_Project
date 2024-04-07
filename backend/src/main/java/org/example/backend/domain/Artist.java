@@ -3,10 +3,7 @@ package org.example.backend.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@NamedEntityGraph(name = "artist.songs", attributeNodes = @NamedAttributeNode("songs"))
 public class Artist {
 
     @Id
@@ -26,7 +24,6 @@ public class Artist {
     private String name;
     private int age;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "artist")
     private List<Song> songs = new ArrayList<>();
 

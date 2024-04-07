@@ -1,17 +1,18 @@
 package org.example.backend.services;
 
 import org.example.backend.domain.Artist;
+import org.example.backend.dto.ArtistDto;
 import org.example.backend.repositories.ArtistRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.example.backend.domain.Song;
 @Service
+@RequiredArgsConstructor
 public class ArtistServiceImpl implements ArtistService {
     private final ArtistRepository artistRepository;
 
-    public ArtistServiceImpl(ArtistRepository artistRepository) {
-        this.artistRepository = artistRepository;
-    }
 
     @Override
     public List<Artist> findAll() {
@@ -38,4 +39,20 @@ public class ArtistServiceImpl implements ArtistService {
     public void saveAll(Iterable<Artist> artists) {
         artistRepository.saveAll(artists);
     }
+
+    //findAllWithSongs method
+    @Override
+    public List<ArtistDto> findAllArtistsWithSongs() {
+        List<Artist> artists = artistRepository.findAllArtistsWithSongs();
+        return artists.stream()
+                .map(artist -> {
+                    List<String> songTitles = artist.getSongs().stream()
+                            .map(Song::getTitle)
+                            .collect(Collectors.toList());
+                    return new ArtistDto(artist.getId(),artist.getName(), artist.getAge(), songTitles);
+                })
+                .collect(Collectors.toList());
+    }
+
+
 }

@@ -32,8 +32,16 @@ const ArtistList = () => {
               <Card.Body>
                 <Card.Title>{artist.name}</Card.Title>
                 <Card.Text>Age: {artist.age}</Card.Text>
-                {/* Additional properties if present */}
-                {/* <Card.Text>SomeProperty: {artist.someProperty}</Card.Text> */}
+                {artist.songTitles && artist.songTitles.length > 0 && (
+                  <div>
+                    <h5>Songs:</h5>
+                    <ul>
+                      {artist.songTitles.map((songTitle, index) => (
+                        <li key={index}>{songTitle}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </Card.Body>
             </Card>
           ))

@@ -1,8 +1,11 @@
 package org.example.backend.controllers;
 
 import org.example.backend.domain.Artist;
+import org.example.backend.dto.ArtistDto;
 import org.example.backend.services.ArtistService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -15,9 +18,11 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
+
     @GetMapping
-    public List<Artist> getAllArtists() {
-        return artistService.findAll();
+    public ResponseEntity<List<ArtistDto>> getAllArtistsWithSongs() {
+        List<ArtistDto> artists = artistService.findAllArtistsWithSongs();
+        return ResponseEntity.ok(artists);
     }
 
     @GetMapping("/{id}")

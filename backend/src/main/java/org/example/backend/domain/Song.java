@@ -1,10 +1,8 @@
 package org.example.backend.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +17,14 @@ public class Song {
     private Long id;
 
     private String title;
-    private String genre;
+    private Genre genre;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JoinColumn
+    @JsonIgnore
     private Artist artist;
 
-    public Song(String title, String genre, Artist artist) {
+    public Song(String title, Genre genre, Artist artist) {
         this.title = title;
         this.genre = genre;
         this.artist = artist;

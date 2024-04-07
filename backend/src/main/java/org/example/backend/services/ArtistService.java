@@ -1,6 +1,8 @@
 package org.example.backend.services;
 
 import org.example.backend.domain.Artist;
+import org.example.backend.dto.ArtistDto;
+
 import java.util.List;
 
 public interface ArtistService {
@@ -11,4 +13,7 @@ public interface ArtistService {
 
     //saveAll method
     void saveAll(Iterable<Artist> artists);
+
+    //findAllWithSongs method
+    List<ArtistDto> findAllArtistsWithSongs();
 }

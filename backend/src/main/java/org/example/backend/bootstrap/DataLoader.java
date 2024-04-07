@@ -1,16 +1,7 @@
 package org.example.backend.bootstrap;
 
-import org.example.backend.domain.Artist;
-import org.example.backend.domain.Concert;
-import org.example.backend.domain.Song;
-import org.example.backend.domain.Venue;
-import org.example.backend.domain.Role;
-import org.example.backend.domain.User;
-import org.example.backend.services.ConcertService;
-import org.example.backend.services.ArtistService;
-import org.example.backend.services.SongService;
-import org.example.backend.services.VenueService;
-import org.example.backend.services.UserService;
+import org.example.backend.domain.*;
+import org.example.backend.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,9 +39,9 @@ public class DataLoader implements CommandLineRunner {
 
         // Adding some songs
         List<Song> songs = List.of(
-                new Song("Rock Song 1", "Rock", artists.get(0)),
-                new Song("Pop Song 1", "Pop", artists.get(1)),
-                new Song("Jazz Song 1", "Jazz", artists.get(2))
+                new Song("Rock Song 1", Genre.ROCK, artists.get(0)),
+                new Song("Pop Song 1", Genre.POP, artists.get(1)),
+                new Song("Jazz Song 1", Genre.JAZZ, artists.get(2))
         );
         songService.saveAll(songs);
 
