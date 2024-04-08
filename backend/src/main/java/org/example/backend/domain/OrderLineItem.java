@@ -16,6 +16,6 @@ import org.example.backend.domain.base.BaseEntity;
 @Table(name = "order_line_items")
 public class OrderLineItem extends BaseEntity<Long> {
     @OneToOne
-    private Concert concert;
+    private Ticket ticket;
     private int qty;
 }

@@ -1,10 +1,14 @@
 package org.example.backend.services.impl;
 
 import org.example.backend.domain.Venue;
+import org.example.backend.dto.ArtistDto;
+import org.example.backend.dto.ConcertDto;
+import org.example.backend.dto.VenueDto;
 import org.example.backend.repositories.VenueRepository;
 import org.example.backend.services.VenueService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VenueServiceImpl implements VenueService {
@@ -37,5 +41,22 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public void deleteById(Long id) {
         venueRepository.deleteById(id);
+    }
+
+    @Override
+    public List<VenueDto> findAllWithConcerts() {
+        List<Venue> venues = venueRepository.findAllWithConcerts();
+        return venues.stream()
+                .map(venue -> {
+                    List<String> concertNames = venue.getConcerts().stream()
+                            .map(concert -> concert.getName())
+                            .collect(Collectors.toList());
+                    return new VenueDto(
+                            venue.getName(),
+                            venue.getLocation(),
+                            concertNames
+                    );
+                })
+                .collect(Collectors.toList());
     }
 }

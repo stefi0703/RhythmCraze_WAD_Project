@@ -18,7 +18,6 @@ const ConcertList = () => {
 
     fetchConcerts();
   }, []);
-  console.log(concerts); // Log the value of concerts state
 
   return (
     <>
@@ -31,13 +30,16 @@ const ConcertList = () => {
               <Card.Body>
                 <Card.Title>{concert.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {concert.artist}
+                  {concert.artist ? `Artist: ${concert.artist.name}` : ""}
                 </Card.Subtitle>
-                <Card.Text>Venue: {concert.venue}</Card.Text>
+                <Card.Text>
+                  Venues:{" "}
+                  {concert.venues
+                    ? concert.venues.map((venue) => venue.name).join(", ")
+                    : ""}
+                </Card.Text>
                 <Card.Text>Date: {concert.date}</Card.Text>
                 <Card.Text>Price: ${concert.price}</Card.Text>
-                {/* Additional properties if present */}
-                {/* <Card.Text>SomeProperty: {concert.someProperty}</Card.Text> */}
                 <Button variant="primary">Buy Tickets</Button>
               </Card.Body>
             </Card>

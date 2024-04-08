@@ -1,5 +1,7 @@
 package org.example.backend.controllers;
 
+import org.example.backend.dto.VenueDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.backend.domain.Venue;
 import org.example.backend.services.VenueService;
@@ -16,8 +18,9 @@ public class VenueController {
     }
 
     @GetMapping
-    public List<Venue> getAllVenues() {
-        return venueService.findAll();
+    public ResponseEntity<List<VenueDto>> getAllVenuesWithConcerts() {
+        List<VenueDto> venues = venueService.findAllWithConcerts();
+        return ResponseEntity.ok(venues);
     }
 
     @GetMapping("/{id}")

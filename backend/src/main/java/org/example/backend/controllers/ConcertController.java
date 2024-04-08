@@ -1,9 +1,11 @@
 package org.example.backend.controllers;
 
 import org.example.backend.domain.Concert;
+import org.example.backend.dto.ConcertDto;
 import org.example.backend.services.ConcertService;
 import org.example.backend.domain.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,15 +27,11 @@ public class ConcertController {
     }
 
     @GetMapping
-    @ResponseBody
-    public List<Concert> seeConcerts() {
-
-        return concertService.findAll();
-       // model.addAttribute("concerts", concertService.findAll());
-        //User user = (User) authentication.getPrincipal();
-        //log.info(user.getUsername());
-       // return "concerts";
+    public ResponseEntity<List<ConcertDto>> getAllConcertsWithArtistsAndVenues() {
+        List<ConcertDto> concerts = concertService.findAllWithArtistAndVenues();
+        return ResponseEntity.ok(concerts);
     }
+
 
     @PostMapping
     public String addConcert(Concert concert) {

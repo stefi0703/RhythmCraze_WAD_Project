@@ -47,20 +47,29 @@ public class DataLoader implements CommandLineRunner {
         );
         songService.saveAll(songs);
 
-        // Adding some venues
+// Adding some venues
         List<Venue> venues = List.of(
                 new Venue("Rock Arena", "Location 1"),
                 new Venue("Pop Hall", "Location 2"),
                 new Venue("Jazz Club", "Location 3")
         );
+
+// Save venues using venueService
         venueService.saveAll(venues);
 
-        // Adding some concerts
+// Fetch the saved venues from the database
+        Venue venue1 = venueService.findById(1L);
+        Venue venue2 = venueService.findById(2L);
+        Venue venue3 = venueService.findById(3L);
+
+// Adding some concerts with multiple venues
         List<Concert> concerts = List.of(
-                new Concert("Rock Concert", artists.get(0), venues.get(0), Date.valueOf("2024-04-10"), 50.0),
-                new Concert("Pop Concert", artists.get(1), venues.get(1), Date.valueOf("2024-05-15"), 60.0),
-                new Concert("Jazz Night", artists.get(2), venues.get(2), Date.valueOf("2024-06-20"), 40.0)
+                new Concert("Rock Concert", artists.get(0), List.of(venue1), Date.valueOf("2024-04-10"), 50.0),
+                new Concert("Pop Concert", artists.get(1), List.of(venue2), Date.valueOf("2024-05-15"), 60.0),
+                new Concert("Jazz Night", artists.get(2), List.of(venue3,venue2), Date.valueOf("2024-06-20"), 40.0)
         );
+
+// Save concerts using concertService
         concertService.saveAll(concerts);
 
         // Adding some users

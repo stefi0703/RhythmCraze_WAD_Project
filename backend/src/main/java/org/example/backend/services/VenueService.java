@@ -1,6 +1,8 @@
 package org.example.backend.services;
 
 import org.example.backend.domain.Venue;
+import org.example.backend.dto.VenueDto;
+
 import java.util.List;
 
 public interface VenueService {
@@ -11,4 +13,7 @@ public interface VenueService {
 
     //saveAll method
     void saveAll(Iterable<Venue> venues);
+
+    //findAllWithConcerts method
+    List<VenueDto> findAllWithConcerts();
 }

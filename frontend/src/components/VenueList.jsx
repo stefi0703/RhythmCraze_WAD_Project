@@ -32,6 +32,12 @@ const VenueList = () => {
               <Card.Body>
                 <Card.Title>{venue.name}</Card.Title>
                 <Card.Text>Location: {venue.location}</Card.Text>
+                <Card.Text>
+                  Concerts:{" "}
+                  {venue.concertsNames
+                    ? venue.concertsNames.join(", ")
+                    : "No concerts"}
+                </Card.Text>
                 {/* Additional properties if present */}
                 {/* <Card.Text>SomeProperty: {venue.someProperty}</Card.Text> */}
               </Card.Body>

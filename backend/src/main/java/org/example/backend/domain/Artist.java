@@ -29,6 +29,9 @@ public class Artist extends BaseEntity<Long> {
     @OneToMany(mappedBy = "artist")
     private List<Song> songs = new ArrayList<>();
 
+    @OneToOne(mappedBy = "artist")
+    private Concert concert;
+
     public Artist(String name, int age) {
         this.name = name;
         this.age = age;
