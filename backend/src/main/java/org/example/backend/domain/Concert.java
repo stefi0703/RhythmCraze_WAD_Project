@@ -1,25 +1,23 @@
 package org.example.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import org.example.backend.domain.base.BaseEntity;
 
 import java.sql.Date;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-public class Concert {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+@AllArgsConstructor
+@Table(name = "concerts")
+public class Concert extends BaseEntity<Long> {
 
     private String name;
     @JsonIgnore
@@ -33,11 +31,4 @@ public class Concert {
     private Date date;
     private double price;
 
-    public Concert(String name, Artist artist, Venue venue, Date date, double price) {
-        this.name = name;
-        this.artist = artist;
-        this.venue = venue;
-        this.date = date;
-        this.price = price;
-    }
 }

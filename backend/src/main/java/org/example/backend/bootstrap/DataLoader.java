@@ -1,6 +1,8 @@
 package org.example.backend.bootstrap;
 
 import org.example.backend.domain.*;
+import org.example.backend.domain.enums.Genre;
+import org.example.backend.domain.enums.Role;
 import org.example.backend.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

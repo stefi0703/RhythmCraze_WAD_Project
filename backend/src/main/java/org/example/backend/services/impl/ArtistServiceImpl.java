@@ -1,8 +1,9 @@
-package org.example.backend.services;
+package org.example.backend.services.impl;
 
 import org.example.backend.domain.Artist;
 import org.example.backend.dto.ArtistDto;
 import org.example.backend.repositories.ArtistRepository;
+import org.example.backend.services.ArtistService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class ArtistServiceImpl implements ArtistService {
                     List<String> songTitles = artist.getSongs().stream()
                             .map(Song::getTitle)
                             .collect(Collectors.toList());
-                    return new ArtistDto(artist.getId(),artist.getName(), artist.getAge(), songTitles);
+                    return new ArtistDto(artist.getName(), artist.getAge(), songTitles);
                 })
                 .collect(Collectors.toList());
     }

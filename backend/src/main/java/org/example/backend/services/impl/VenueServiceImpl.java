@@ -1,7 +1,8 @@
-package org.example.backend.services;
+package org.example.backend.services.impl;
 
 import org.example.backend.domain.Venue;
 import org.example.backend.repositories.VenueRepository;
+import org.example.backend.services.VenueService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

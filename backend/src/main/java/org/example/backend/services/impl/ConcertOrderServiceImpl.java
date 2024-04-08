@@ -1,8 +1,9 @@
-package org.example.backend.services;
+package org.example.backend.services.impl;
 
 import org.example.backend.domain.ConcertOrder;
 import org.example.backend.repositories.ConcertOrderRepository;
 
+import org.example.backend.services.ConcertOrderService;
 import org.springframework.stereotype.Service;
 
 @Service

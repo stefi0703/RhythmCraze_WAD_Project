@@ -1,20 +1,20 @@
 package org.example.backend.domain;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import org.example.backend.domain.base.BaseEntity;
+
 import java.util.List;
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-public class Venue {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+@AllArgsConstructor
+@Table(name = "venues")
+public class Venue extends BaseEntity<Long> {
 
     private String name;
     private String location;

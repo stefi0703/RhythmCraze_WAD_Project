@@ -1,7 +1,8 @@
-package org.example.backend.services;
+package org.example.backend.services.impl;
 
 import org.example.backend.domain.Song;
 import org.example.backend.repositories.SongRepository;
+import org.example.backend.services.SongService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

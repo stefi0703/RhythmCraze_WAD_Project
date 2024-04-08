@@ -1,8 +1,13 @@
 package org.example.backend.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.example.backend.domain.base.BaseEntity;
+import org.example.backend.domain.enums.Role;
+import org.example.backend.dto.base.BaseDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,10 +17,13 @@ import java.util.Collection;
 import java.util.List;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-public class User implements UserDetails {
+@AllArgsConstructor
+@Table(name = "users")
+public class User extends BaseEntity<Long> implements UserDetails {
 
   @Id
   @GeneratedValue
@@ -23,9 +31,9 @@ public class User implements UserDetails {
 
   private String username;
   private String password;
-  // instead of @OneToMany when having collection of basic types or enums
+
   @ElementCollection(fetch = FetchType.EAGER)
-  private List<Role> roles=new ArrayList<>();
+  private List<Role> roles = new ArrayList<>();
 
   public User(String username, String password) {
     this.username = username;

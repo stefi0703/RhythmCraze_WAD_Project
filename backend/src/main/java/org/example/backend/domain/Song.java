@@ -3,18 +3,20 @@ package org.example.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.backend.domain.base.BaseEntity;
+import org.example.backend.domain.enums.Genre;
 
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Song {
+@AllArgsConstructor
+@Table(name = "songs")
+public class Song extends BaseEntity<Long> {
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private String title;
     private Genre genre;
@@ -24,10 +26,5 @@ public class Song {
     @JsonIgnore
     private Artist artist;
 
-    public Song(String title, Genre genre, Artist artist) {
-        this.title = title;
-        this.genre = genre;
-        this.artist = artist;
-    }
 }
 

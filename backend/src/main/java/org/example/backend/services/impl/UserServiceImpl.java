@@ -1,7 +1,8 @@
-package org.example.backend.services;
+package org.example.backend.services.impl;
 
 import org.example.backend.domain.User;
 import org.example.backend.repositories.UserRepository;
+import org.example.backend.services.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
