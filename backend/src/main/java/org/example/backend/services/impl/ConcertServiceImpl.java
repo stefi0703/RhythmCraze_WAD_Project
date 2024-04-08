@@ -8,6 +8,7 @@ import org.example.backend.repositories.ConcertRepository;
 import org.example.backend.services.ConcertService;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +35,6 @@ public class ConcertServiceImpl implements ConcertService {
         concertRepository.save(concert);
     }
 
-    @Override
-    // Method to find all concerts with artists and venues
     public List<ConcertDto> findAllWithArtistAndVenues() {
         List<Concert> concerts = concertRepository.findAllWithArtistAndVenues();
         return concerts.stream()
@@ -48,11 +47,12 @@ public class ConcertServiceImpl implements ConcertService {
                     List<VenueDto> venueDtos = concert.getVenues().stream()
                             .map(venue -> new VenueDto(venue.getName(), venue.getLocation(), null)) // Since we're not including concerts in venue DTO
                             .collect(Collectors.toList());
+                    List<Date> dates = concert.getDates();
                     return new ConcertDto(
                             concert.getName(),
                             artistDto,
                             venueDtos,
-                            concert.getDate(),
+                            dates, // List of dates
                             concert.getPrice()
                     );
                 })

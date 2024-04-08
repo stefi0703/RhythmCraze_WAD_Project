@@ -39,17 +39,20 @@ public class Concert extends BaseEntity<Long> {
     )
     private List<Venue> venues;
 
-    private Date date;
+    @ElementCollection
+    private List<Date> dates; // Changed type to List<Date>
+
     private double price;
     private double vipPriceIncrement = 0.5;
     private double premiumPriceIncrement =0.2;
 
-    //constructor with name,artist,venue,date,baseprice
-    public Concert(String name, Artist artist, List<Venue> venues, Date date, double price) {
+
+    // Constructor with name, artist, venues, dates, base price
+    public Concert(String name, Artist artist, List<Venue> venues, List<Date> dates, double price) {
         this.name = name;
         this.artist = artist;
         this.venues = venues;
-        this.date = date;
+        this.dates = dates;
         this.price = price;
     }
 

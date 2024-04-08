@@ -38,8 +38,15 @@ const ConcertList = () => {
                     ? concert.venues.map((venue) => venue.name).join(", ")
                     : ""}
                 </Card.Text>
-                <Card.Text>Date: {concert.date}</Card.Text>
-                <Card.Text>Price: ${concert.price}</Card.Text>
+                <Card.Text>
+                  Dates:{" "}
+                  {concert.dates
+                    ? concert.dates
+                        .map((date) => new Date(date).toLocaleDateString())
+                        .join(", ")
+                    : ""}
+                </Card.Text>
+                <Card.Text>Price starting from: ${concert.price}</Card.Text>
                 <Button variant="primary">Buy Tickets</Button>
               </Card.Body>
             </Card>

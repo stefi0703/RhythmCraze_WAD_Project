@@ -64,9 +64,19 @@ public class DataLoader implements CommandLineRunner {
 
 // Adding some concerts with multiple venues
         List<Concert> concerts = List.of(
-                new Concert("Rock Concert", artists.get(0), List.of(venue1), Date.valueOf("2024-04-10"), 50.0),
-                new Concert("Pop Concert", artists.get(1), List.of(venue2), Date.valueOf("2024-05-15"), 60.0),
-                new Concert("Jazz Night", artists.get(2), List.of(venue3,venue2), Date.valueOf("2024-06-20"), 40.0)
+                new Concert("Rock Concert", artists.get(0), List.of(venue1), List.of(
+                        Date.valueOf("2024-04-10"),
+                        Date.valueOf("2024-04-11")
+                ), 50.0),
+                new Concert("Pop Concert", artists.get(1), List.of(venue2), List.of(
+                        Date.valueOf("2024-05-15"),
+                        Date.valueOf("2024-05-16")
+                ), 60.0),
+                new Concert("Jazz Night", artists.get(2), List.of(venue3, venue2), List.of(
+                        Date.valueOf("2024-06-20"),
+                        Date.valueOf("2024-06-21"),
+                        Date.valueOf("2024-06-22")
+                ), 40.0)
         );
 
 // Save concerts using concertService

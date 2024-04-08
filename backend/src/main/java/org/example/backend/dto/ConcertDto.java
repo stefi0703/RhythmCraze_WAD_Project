@@ -15,6 +15,6 @@ public class ConcertDto extends BaseDto implements Serializable {
     private String name;
     private ArtistDto artist;
     private List<VenueDto> venues;
-    private Date date;
+    private List<Date> dates; // List of dates
     private double price;
 }
