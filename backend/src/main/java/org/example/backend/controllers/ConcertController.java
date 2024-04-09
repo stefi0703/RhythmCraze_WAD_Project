@@ -1,6 +1,7 @@
 package org.example.backend.controllers;
 
 import org.example.backend.domain.Concert;
+import org.example.backend.domain.Venue;
 import org.example.backend.dto.ConcertDto;
 import org.example.backend.services.ConcertService;
 import org.example.backend.domain.User;
@@ -9,12 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -38,4 +38,16 @@ public class ConcertController {
         concertService.save(concert);
         return "redirect:/concerts";
     }
+
+    //filter concerts
+    @GetMapping("/filter")
+    public ResponseEntity<List<ConcertDto>> filterConcerts(
+            @RequestParam(required = false) String artist,
+            @RequestParam(required = false) List<Date> dates,
+            @RequestParam(required = false) List<String> venueNames) {
+
+        List<ConcertDto> filteredConcerts = concertService.filterConcerts(artist, dates, venueNames);
+        return ResponseEntity.ok(filteredConcerts);
+    }
+
 }

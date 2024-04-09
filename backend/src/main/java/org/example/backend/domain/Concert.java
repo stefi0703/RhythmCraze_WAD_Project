@@ -18,6 +18,15 @@ import java.util.List;
                 @NamedAttributeNode(value = "venues")
         }
 )
+@NamedEntityGraph(
+        name = "concert-with-artist-and-venues-and-dates",
+        attributeNodes = {
+                @NamedAttributeNode(value = "artist"),
+                @NamedAttributeNode(value = "venues"),
+                @NamedAttributeNode(value = "dates")
+        }
+)
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

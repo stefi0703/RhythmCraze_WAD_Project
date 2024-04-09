@@ -23,6 +23,11 @@ public class VenueController {
         return ResponseEntity.ok(venues);
     }
 
+//    @GetMapping
+//    public List<Venue> getAllVenues() {
+//        return venueService.findAll();
+//    }
+
     @GetMapping("/{id}")
     public Venue getVenueById(@PathVariable Long id) {
         return venueService.findById(id);

@@ -19,8 +19,6 @@ const VenueList = () => {
     fetchVenues();
   }, []);
 
-  console.log(venues); // Log the value of venues state
-
   return (
     <>
       <CustomNavbar />
