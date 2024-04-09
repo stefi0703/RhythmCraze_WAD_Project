@@ -10,6 +10,10 @@
 ## About RhythmCraze
 RhythmCraze is an online platform focused on selling concert tickets. It provides an engaging experience for both buyers and administrators. This README gives an overview of the capabilities for both admins and users/buyers.
 
+## Useful links
+**Figma** : https://www.figma.com/file/mXdgHHaqcCMoHGtOCdpv8P/Untitled?type=design&node-id=0%3A1&mode=design&t=Dyovb6saXjYtDvD2-1
+**Trello**: https://trello.com/b/Pp7DMu7A/wadproject
+
 ## Why choose RhythmCraze?
 
 ### **Customer Features:**
