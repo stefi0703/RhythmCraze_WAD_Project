@@ -17,4 +17,13 @@ public class ConcertDto extends BaseDto implements Serializable {
     private List<VenueDto> venues;
     private List<Date> dates; // List of dates
     private double price;
+
+    public ConcertDto(Long id, String name, ArtistDto artistDto, List<VenueDto> venueDtos, List<Date> dates, double price) {
+        super(id);
+        this.name = name;
+        this.artist = artistDto;
+        this.venues = venueDtos;
+        this.dates = dates;
+        this.price = price;
+    }
 }

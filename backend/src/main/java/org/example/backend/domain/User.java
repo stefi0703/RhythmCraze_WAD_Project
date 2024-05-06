@@ -29,6 +29,10 @@ public class User extends BaseEntity<Long> implements UserDetails {
   @GeneratedValue
   private Long id;
 
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String address;
   private String username;
   private String password;
 

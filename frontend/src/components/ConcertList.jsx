@@ -108,8 +108,9 @@ const ConcertList = () => {
         <h1>Concerts</h1>
         <ConcertFilter onFilter={handleFilter} />
         {concerts.length > 0 ? (
-          concerts.map((concert) => (
-            <Card key={concert.id} className="my-3">
+          concerts.map((concert, index) => (
+            <Card key={concert.id || index} className="my-3">
+              {" "}
               <Card.Body>
                 <Card.Title>{concert.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">

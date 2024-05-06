@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, InputGroup, Button, Alert } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import Axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -22,30 +22,40 @@ function Login() {
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
+        console.log(values);
         const response = await Axios.post(
-          "http://localhost:8080/login",
+          "http://localhost:8080/users/login",
           values
         );
-        console.log(response.data);
-        // Redirect to home page upon successful login
-        // window.location.href = "/";
-      } catch (error) {
-        if (error.response.status === 401) {
-          setError("Invalid credentials");
-        } else {
-          setError("An error occurred. Please try again later.");
-        }
+       // console.log(response.data);
+        if (response.status === 200) {
+          localStorage.setItem('jwtToken', response.data);
+          alert('Login successful');
+          console.log(response.data);
+          window.location.href = "/"; // Redirect to home page
+
       }
-    },
-  });
+  } catch (error) {
+      if (error.response && error.response.status === 401) {
+          alert('Invalid username or password');
+      } else {
+          alert('An error occurred');
+      }
+  }
+}
+});
 
   return (
     <>
       <CustomNavbar />
       <Container className={styles.formContainer}>
+        {error && (
+          <Alert variant="danger" className="mt-3">
+            {error}
+          </Alert>
+        )}
         <Form className={styles.formCard} onSubmit={formik.handleSubmit}>
           <h1>Login</h1>
-          {error && <Alert variant="danger">{error}</Alert>}
           <Form.Group controlId="username">
             <Form.Label>Username</Form.Label>
             <Form.Control

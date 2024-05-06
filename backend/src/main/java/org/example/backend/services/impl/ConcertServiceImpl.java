@@ -34,8 +34,8 @@ public class ConcertServiceImpl implements ConcertService {
     }
 
     @Override
-    public void save(Concert concert) {
-        concertRepository.save(concert);
+    public Concert save(Concert concert) {
+        return concertRepository.save(concert);
     }
     @Override
     public List<ConcertDto> findAllWithArtistAndVenues() {
@@ -52,6 +52,7 @@ public class ConcertServiceImpl implements ConcertService {
                             .collect(Collectors.toList());
                     List<Date> dates = concert.getDates();
                     return new ConcertDto(
+                            concert.getId(),
                             concert.getName(),
                             artistDto,
                             venueDtos,
@@ -63,6 +64,39 @@ public class ConcertServiceImpl implements ConcertService {
     }
     //filter based on artist name, venue name, and date
     @Override
+//    public List<ConcertDto> filterConcerts(String artist, List<Date> dates, List<String> venueNames) {
+//        Stream<Concert> concertStream = concertRepository.findAllWithArtistAndVenues().stream();
+//
+//        if (artist != null && !artist.isEmpty()) {
+//            concertStream = concertStream.filter(concert -> concert.getArtist().getName().equalsIgnoreCase(artist));
+//        }
+//
+//        if (dates != null && !dates.isEmpty()) {
+//            concertStream = concertStream.filter(concert -> dates.containsAll(concert.getDates()));
+//        }
+//
+//        if (venueNames != null && !venueNames.isEmpty()) {
+//            concertStream = concertStream.filter(concert -> {
+//                List<String> concertVenueNames = concert.getVenues().stream()
+//                        .map(Venue::getName)
+//                        .collect(Collectors.toList());
+//                return concertVenueNames.containsAll(venueNames);
+//            });
+//        }
+//
+//        return concertStream.map(concert -> {
+//            // Extract required data from concert and create ConcertDto object
+//            String artistName = concert.getArtist().getName(); // Extract only the name of the artist
+//            ArtistDto artistDto = new ArtistDto(artistName, 0,null); // Create ArtistDto with only name populated
+//            List<VenueDto> venueDtos = concert.getVenues().stream()
+//                    .map(venue -> new VenueDto(venue.getName(), null, null))
+//                    .collect(Collectors.toList());
+//            List<Date> concertDates = concert.getDates();
+//            return new ConcertDto(concert.getName(), artistDto, venueDtos, concertDates, concert.getPrice());
+//        }).collect(Collectors.toList());
+//
+//    }
+
     public List<ConcertDto> filterConcerts(String artist, List<Date> dates, List<String> venueNames) {
         Stream<Concert> concertStream = concertRepository.findAllWithArtistAndVenues().stream();
 
@@ -71,7 +105,7 @@ public class ConcertServiceImpl implements ConcertService {
         }
 
         if (dates != null && !dates.isEmpty()) {
-            concertStream = concertStream.filter(concert -> dates.containsAll(concert.getDates()));
+            concertStream = concertStream.filter(concert -> concert.getDates().stream().anyMatch(dates::contains));
         }
 
         if (venueNames != null && !venueNames.isEmpty()) {
@@ -79,23 +113,39 @@ public class ConcertServiceImpl implements ConcertService {
                 List<String> concertVenueNames = concert.getVenues().stream()
                         .map(Venue::getName)
                         .collect(Collectors.toList());
-                return concertVenueNames.containsAll(venueNames);
+                return venueNames.stream().anyMatch(concertVenueNames::contains);
             });
         }
 
         return concertStream.map(concert -> {
-            // Extract required data from concert and create ConcertDto object
+
             String artistName = concert.getArtist().getName(); // Extract only the name of the artist
-            ArtistDto artistDto = new ArtistDto(artistName, 0,null); // Create ArtistDto with only name populated
+            ArtistDto artistDto = new ArtistDto(artistName, 0, null); // Create ArtistDto with only name populated
             List<VenueDto> venueDtos = concert.getVenues().stream()
                     .map(venue -> new VenueDto(venue.getName(), null, null))
                     .collect(Collectors.toList());
             List<Date> concertDates = concert.getDates();
             return new ConcertDto(concert.getName(), artistDto, venueDtos, concertDates, concert.getPrice());
         }).collect(Collectors.toList());
-
+    }
+    @Override
+    public void deleteById(Long id) {
+        concertRepository.deleteById(id);
     }
 
+    @Override
+    public Concert update(Long id, Concert concert) {
+        Concert existingConcert = concertRepository.findById(id).orElse(null);
+        if (existingConcert == null) {
+            return null;
+        }
+        existingConcert.setName(concert.getName());
+        existingConcert.setArtist(concert.getArtist());
+        existingConcert.setVenues(concert.getVenues());
+        existingConcert.setDates(concert.getDates());
+        existingConcert.setPrice(concert.getPrice());
+        return concertRepository.save(existingConcert);
+    }
 
 
 
