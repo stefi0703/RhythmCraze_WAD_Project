@@ -1,6 +1,7 @@
 package org.example.backend.security;
 
 import org.example.backend.domain.User;
+import org.example.backend.dto.UserDto;
 import org.example.backend.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,5 +32,17 @@ public class UserRepoUserDetailsService implements UserDetailsService {
             return user;
         }
         return null;
+    }
+
+    public User register(UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setAddress(userDto.getAddress());
+
+        return userRepository.save(user);
     }
 }

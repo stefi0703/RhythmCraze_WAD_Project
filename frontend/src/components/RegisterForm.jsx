@@ -4,38 +4,36 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import * as formik from "formik";
-import * as yup from "yup";
+import axios from "axios"; // Import Axios for making HTTP requests
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { Formik } from "formik";
 import CustomNavbar from "./CustomNavbar";
 import styles from "./RegisterForm.css";
 import { Card, Container } from "react-bootstrap";
-import axios from "axios"; // Import Axios for making HTTP requests
-import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
-  const { Formik } = formik;
-
-  const schema = yup.object().shape({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    email: yup.string().email().required(),
-    username: yup.string().required(),
-    password: yup.string().required(),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
-    address: yup.string().required(),
-    terms: yup.bool().required().oneOf([true], "Terms must be accepted"),
-  });
-
   const navigate = useNavigate(); // Initialize useHistory hook
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    username: Yup.string().required("Username is required"),
+    password: Yup.string().required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm password is required"),
+    address: Yup.string().required("Address is required"),
+    terms: Yup.bool().oneOf([true], "Terms must be accepted").required(),
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       // Make POST request to backend
-      await axios.post("/api/register", values);
+      await axios.post("http://localhost:8080/users/register", values);
       console.log("Registration successful");
-      navigate.push("/login"); // Redirect to login page after successful registration
+      navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
       console.error("Registration failed:", error.message);
       // Handle error
@@ -56,11 +54,11 @@ function RegisterForm() {
             </Card.Title>
 
             <Formik
-              validationSchema={schema}
+              validationSchema={validationSchema}
               onSubmit={handleSubmit}
               initialValues={{
-                firstName: "Mark",
-                lastName: "Otto",
+                firstName: "",
+                lastName: "",
                 email: "",
                 username: "",
                 password: "",
@@ -69,157 +67,135 @@ function RegisterForm() {
                 terms: false,
               }}
             >
-              {({ handleSubmit, handleChange, values, touched, errors }) => (
+              {({
+                handleSubmit,
+                handleChange,
+                values,
+                touched,
+                errors,
+                isValid,
+                isSubmitting,
+              }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Row className="mb-3">
-                    <Form.Group
-                      as={Col}
-                      md="4"
-                      controlId="validationFormikFirstName"
-                    >
-                      <Form.Label>First name</Form.Label>
+                    <Form.Group as={Col} controlId="firstName">
+                      <Form.Label>First Name</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="First name"
                         name="firstName"
                         value={values.firstName}
                         onChange={handleChange}
-                        isInvalid={!!errors.firstName}
+                        isInvalid={touched.firstName && !!errors.firstName}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.firstName}
                       </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="4"
-                      controlId="validationFormikLastName"
-                    >
-                      <Form.Label>Last name</Form.Label>
+                    <Form.Group as={Col} controlId="lastName">
+                      <Form.Label>Last Name</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Last name"
                         name="lastName"
                         value={values.lastName}
                         onChange={handleChange}
-                        isInvalid={!!errors.lastName}
+                        isInvalid={touched.lastName && !!errors.lastName}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.lastName}
                       </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="4"
-                      controlId="validationFormikEmail"
-                    >
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="email">
                       <Form.Label>Email</Form.Label>
                       <Form.Control
                         type="email"
-                        placeholder="Email"
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        isInvalid={!!errors.email}
+                        isInvalid={touched.email && !!errors.email}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.email}
                       </Form.Control.Feedback>
                     </Form.Group>
+                    <Form.Group as={Col} controlId="username">
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="username"
+                        value={values.username}
+                        onChange={handleChange}
+                        isInvalid={touched.username && !!errors.username}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.username}
+                      </Form.Control.Feedback>
+                    </Form.Group>
                   </Row>
                   <Row className="mb-3">
-                    <Form.Group
-                      as={Col}
-                      md="6"
-                      controlId="validationFormikUsername"
-                    >
-                      <Form.Label>Username</Form.Label>
-                      <InputGroup hasValidation>
-                        <InputGroup.Text id="inputGroupPrepend">
-                          @
-                        </InputGroup.Text>
-                        <Form.Control
-                          type="text"
-                          placeholder="Username"
-                          aria-describedby="inputGroupPrepend"
-                          name="username"
-                          value={values.username}
-                          onChange={handleChange}
-                          isInvalid={!!errors.username}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.username}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="6"
-                      controlId="validationFormikPassword"
-                    >
+                    <Form.Group as={Col} controlId="password">
                       <Form.Label>Password</Form.Label>
                       <Form.Control
                         type="password"
-                        placeholder="Password"
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        isInvalid={!!errors.password}
+                        isInvalid={touched.password && !!errors.password}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.password}
                       </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="6"
-                      controlId="validationFormikConfirmPassword"
-                    >
+                    <Form.Group as={Col} controlId="confirmPassword">
                       <Form.Label>Confirm Password</Form.Label>
                       <Form.Control
                         type="password"
-                        placeholder="Confirm Password"
                         name="confirmPassword"
                         value={values.confirmPassword}
                         onChange={handleChange}
-                        isInvalid={!!errors.confirmPassword}
+                        isInvalid={
+                          touched.confirmPassword && !!errors.confirmPassword
+                        }
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.confirmPassword}
                       </Form.Control.Feedback>
                     </Form.Group>
                   </Row>
-                  <Form.Group
-                    className="mb-3"
-                    controlId="validationFormikAddress"
-                  >
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Address"
-                      name="address"
-                      value={values.address}
-                      onChange={handleChange}
-                      isInvalid={!!errors.address}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.address}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="address">
+                      <Form.Label>Address</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="address"
+                        value={values.address}
+                        onChange={handleChange}
+                        isInvalid={touched.address && !!errors.address}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.address}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
                   <Form.Group className="mb-3">
                     <Form.Check
                       required
-                      name="terms"
                       label="Agree to terms and conditions"
+                      name="terms"
                       onChange={handleChange}
-                      isInvalid={!!errors.terms}
+                      isInvalid={touched.terms && !!errors.terms}
                       feedback={errors.terms}
                       feedbackType="invalid"
-                      id="validationFormikTerms"
+                      id="terms"
                     />
                   </Form.Group>
-                  <Button type="submit" variant="success">
-                    Submit form
+                  <Button
+                    type="submit"
+                    variant="success"
+                    disabled={!isValid || isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit form"}
                   </Button>
                 </Form>
               )}
