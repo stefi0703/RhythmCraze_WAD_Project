@@ -1,6 +1,13 @@
 import React from "react";
-import { Button, Container, Form, Nav, Navbar, NavDropdown } from "react-bootstrap";
-
+import {
+  Button,
+  Container,
+  Form,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
+import ApiSearch from "./ApiSearch";
 const CustomNavbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("jwtToken"); // Clear the authentication token
@@ -13,7 +20,11 @@ const CustomNavbar = () => {
         <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: "100px" }} navbarScroll>
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
             <Nav.Link href="/">Home</Nav.Link>
             <NavDropdown title="Features" id="navbarScrollingDropdown">
               <NavDropdown.Item href="/concerts">Concerts</NavDropdown.Item>
@@ -24,17 +35,10 @@ const CustomNavbar = () => {
             <Nav.Link href="/contact">Contact</Nav.Link>
             <Nav.Link href="/login">Login</Nav.Link>
             <Nav.Link href="/register">Register</Nav.Link>
-            <Nav.Link onClick={handleLogout}>Logout</Nav.Link> {/* Add onClick handler for logout */}
+            <Nav.Link onClick={handleLogout}>Logout</Nav.Link>{" "}
+            {/* Add onClick handler for logout */}
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+          <ApiSearch />
         </Navbar.Collapse>
       </Container>
     </Navbar>

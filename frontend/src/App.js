@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ArtistList from "./components/ArtistList";
 import VenueList from "./components/VenueList";
 import ApiSearch from "./components/ApiSearch";
+import SearchResultPage from "./components/SearchResultPage";
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
         <Route path="/artists" element={<ArtistList />} />
         <Route path="/venues" element={<VenueList />} />
         <Route path="/apiSearch" element={<ApiSearch />} />
+        <Route
+          path="/search-results/:term"
+          element={<SearchResultPage />}
+        />{" "}
+        {/* Add route for SearchResultPage */}
       </Routes>
     </Router>
   );
