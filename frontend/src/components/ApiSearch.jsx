@@ -6,7 +6,8 @@ const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
     try {
       const response = await axios.get(
         "https://app.ticketmaster.com/discovery/v2/events.json",
