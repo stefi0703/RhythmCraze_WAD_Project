@@ -60,6 +60,10 @@ const SearchResultPage = () => {
                     {result.priceRanges[0].max}
                   </Card.Text>
                 )}
+                <Card.Text>
+                  {result.classifications &&
+                    result.classifications[0].segment.name}
+                </Card.Text>
                 <Button variant="primary">Buy Tickets</Button>
               </Card.Body>
             </Card>

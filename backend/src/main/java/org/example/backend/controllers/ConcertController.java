@@ -67,4 +67,11 @@ public class ConcertController {
         Concert updatedConcert = concertService.update(id, concert);
         return new ResponseEntity<>(updatedConcert, HttpStatus.OK);
     }
+
+    //get concert by id
+    @GetMapping("/{id}")
+    public ResponseEntity<ConcertDto> getConcertById(@PathVariable Long id) {
+        ConcertDto concert = concertService.findById(id);
+        return new ResponseEntity<>(concert, HttpStatus.OK);
+    }
 }

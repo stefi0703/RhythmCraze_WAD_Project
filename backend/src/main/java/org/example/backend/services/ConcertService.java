@@ -19,4 +19,6 @@ public interface ConcertService {
     void deleteById(Long id);
 
     Concert update(Long id, Concert concert);
+
+    ConcertDto findById(Long id);
 }

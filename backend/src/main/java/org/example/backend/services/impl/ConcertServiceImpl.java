@@ -147,7 +147,32 @@ public class ConcertServiceImpl implements ConcertService {
         return concertRepository.save(existingConcert);
     }
 
+    @Override
+    public ConcertDto findById(Long id) {
+        Concert concert = concertRepository.findById(id).orElse(null);
+        if (concert == null) {
+            return null;
+        }
+        ArtistDto artistDto = new ArtistDto(
+                concert.getArtist().getName(),
+                concert.getArtist().getAge(),
+                null // Since we're not including songs in this DTO
+        );
 
+        List<VenueDto> venueDtos = concert.getVenues().stream()
+                .map(venue -> new VenueDto(venue.getName(), venue.getLocation(), null)) // Since we're not including concerts in venue DTO
+                .collect(Collectors.toList());
+        List<Date> dates = concert.getDates();
+        return new ConcertDto(
+                concert.getId(),
+                concert.getName(),
+                artistDto,
+                venueDtos,
+                dates, // List of dates
+                concert.getPrice()
+        );
+    }
 
 
 }
+

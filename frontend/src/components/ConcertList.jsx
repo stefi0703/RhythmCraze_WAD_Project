@@ -3,6 +3,7 @@ import { Container, Card, Button } from "react-bootstrap";
 import Axios from "axios";
 import CustomNavbar from "./CustomNavbar";
 import ConcertFilter from "./ConcertFilter";
+import { useNavigate } from "react-router-dom";
 
 const ConcertList = () => {
   const [concerts, setConcerts] = useState([]);
@@ -13,6 +14,11 @@ const ConcertList = () => {
     params: {
       keyword: "Taylor Swift",
     },
+  };
+  const navigate = useNavigate();
+
+  const handleBuyTickets = (concertId) => {
+    navigate(`/purchase/${concertId}`);
   };
 
   const handleFilter = async (artist, dates, venues) => {
@@ -76,7 +82,12 @@ const ConcertList = () => {
                     : "No dates available"}
                 </Card.Text>
                 <Card.Text>Price: ${concert.price}</Card.Text>
-                <Button variant="primary">Buy Tickets</Button>
+                <Button
+                  variant="primary"
+                  onClick={() => handleBuyTickets(concert.id)}
+                >
+                  Buy Tickets
+                </Button>
               </Card.Body>
             </Card>
           ))

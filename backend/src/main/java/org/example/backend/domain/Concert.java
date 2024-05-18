@@ -52,8 +52,6 @@ public class Concert extends BaseEntity<Long> {
     private List<Date> dates; // Changed type to List<Date>
 
     private double price;
-    private double vipPriceIncrement = 0.5;
-    private double premiumPriceIncrement =0.2;
 
 
     // Constructor with name, artist, venues, dates, base price
