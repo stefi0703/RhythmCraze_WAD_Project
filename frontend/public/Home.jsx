@@ -33,17 +33,12 @@
 
 // export default Home;
 
-import React, { useRef } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import CustomNavbar from "./CustomNavbar";
 import Carousel from 'react-bootstrap/Carousel';
-import Footer from "./Footer";
-import { useNavigate } from "react-router-dom";
 
 const UncontrolledExample = () => {
-
-  const carouselRef = useRef(null);
-
   const imageStyle = {
     maxHeight: '500px',
     objectFit: 'contain',
@@ -58,7 +53,7 @@ const UncontrolledExample = () => {
     width: '30px',
     height: '30px',
     backgroundColor: 'black',
-    borderRadius: '30%',
+    borderRadius: '50%',
     zIndex: 1,
   };
 
@@ -70,20 +65,12 @@ const UncontrolledExample = () => {
     width: '30px',
     height: '30px',
     backgroundColor: 'black',
-    borderRadius: '30%',
+    borderRadius: '50%',
     zIndex: 1,
   };
 
-  const handleImageClick = () => {
-    if (carouselRef.current) {
-      carouselRef.current.next();
-    }
-  };
-
-
-
   return (
-    <Carousel ref={carouselRef}
+    <Carousel
       prevIcon={<span className="carousel-control-prev-icon" aria-hidden="true" style={carouselControlPrevStyle} />}
       nextIcon={<span className="carousel-control-next-icon" aria-hidden="true" style={carouselControlNextStyle} />}
     >
@@ -91,8 +78,7 @@ const UncontrolledExample = () => {
         <img
           style={imageStyle}
           src="/taylor3.jpeg"
-          // alt="First slide"
-          onClick={handleImageClick}
+        // alt="First slide"
         />
         <Carousel.Caption>
           <h3>The Eras Tour</h3>
@@ -103,7 +89,6 @@ const UncontrolledExample = () => {
           style={imageStyle}
           src="/taylor5.jpeg"
           alt="Second slide"
-          onClick={handleImageClick}
         />
         <Carousel.Caption>
           <h3>The Eras Tour</h3>
@@ -114,7 +99,6 @@ const UncontrolledExample = () => {
           style={imageStyle}
           src="/taylor2.jpeg"
           alt="Third slide"
-          onClick={handleImageClick}
         />
         <Carousel.Caption>
           <h3>The Eras Tour</h3>
@@ -125,9 +109,6 @@ const UncontrolledExample = () => {
 }
 
 const UncontrolledExample2 = () => {
-
-  const carouselRef = useRef(null);
-
   const imageStyle = {
     maxHeight: '500px',
     objectFit: 'contain',
@@ -142,7 +123,7 @@ const UncontrolledExample2 = () => {
     width: '30px',
     height: '30px',
     backgroundColor: 'black',
-    borderRadius: '30%',
+    borderRadius: '50%',
     zIndex: 1,
   };
 
@@ -154,52 +135,43 @@ const UncontrolledExample2 = () => {
     width: '30px',
     height: '30px',
     backgroundColor: 'black',
-    borderRadius: '30%',
+    borderRadius: '50%',
     zIndex: 1,
   };
 
-  const handleImageClick = () => {
-    if (carouselRef.current) {
-      carouselRef.current.next();
-    }
-  };
-
   return (
-    <Carousel ref={carouselRef}
+    <Carousel
       prevIcon={<span className="carousel-control-prev-icon" aria-hidden="true" style={carouselControlPrevStyle} />}
       nextIcon={<span className="carousel-control-next-icon" aria-hidden="true" style={carouselControlNextStyle} />}
     >
       <Carousel.Item>
         <img
           style={imageStyle}
-          src="/tw1.jpeg"
-          onClick={handleImageClick}
+          src="/taylor3.jpeg"
         // alt="First slide"
         />
         <Carousel.Caption>
-          <h3>After Hours Dawn</h3>
+          <h3>Love on tour</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
           style={imageStyle}
-          src="/tw2.jpeg"
+          src="/taylor5.jpeg"
           alt="Second slide"
-          onClick={handleImageClick}
         />
         <Carousel.Caption>
-          <h3>After Hours Dawn</h3>
+          <h3>Love on tour</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
           style={imageStyle}
-          src="/tw3.jpeg"
+          src="/taylor2.jpeg"
           alt="Third slide"
-          onClick={handleImageClick}
         />
         <Carousel.Caption>
-          <h3>After Hours Dawn</h3>
+          <h3>Love on tour</h3>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
@@ -207,11 +179,6 @@ const UncontrolledExample2 = () => {
 }
 
 const Home = () => {
-  const navigate = useNavigate(); // useNavigate hook from react-router-dom
-
-  const handleSearchRedirect = () => {
-    navigate('/search-results/the%20eras%20tour');
-  };
   return (
     <div>
       <CustomNavbar />
@@ -233,23 +200,10 @@ const Home = () => {
           <Col>
             <h2>Popular Events</h2>
             <UncontrolledExample />
-            <div className="d-flex justify-content-center mt-3">
-              <Button variant="secondary" onClick={handleSearchRedirect}>
-                View The Eras Tour Events
-              </Button>
-            </div>
             <p>  </p>
-            <UncontrolledExample2 />
-            <div className="d-flex justify-content-center mt-3">
-              <Button variant="secondary" >
-                Tickets available soon!
-              </Button>
-            </div>
-            <p></p>
           </Col>
         </Row>
       </Container>
-      <Footer />
       {/* You can add more sections as needed */}
     </div>
   );
