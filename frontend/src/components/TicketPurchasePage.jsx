@@ -8,6 +8,7 @@ const TicketPurchasePage = () => {
   const [concert, setConcert] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [ticketType, setTicketType] = useState("");
+  const [ticketPrice, setTicketPrice] = useState(0);
 
   useEffect(() => {
     // Fetch concert details by ID
@@ -16,9 +17,20 @@ const TicketPurchasePage = () => {
       .then((data) => setConcert(data));
   }, [concertId]);
 
+  useEffect(() => {
+    // Fetch ticket price when concert and ticket type are selected
+    if (concert && ticketType) {
+      fetch(
+        `http://localhost:8080/api/tickets/prices?concertId=${concertId}&ticketType=${ticketType}`
+      )
+        .then((response) => response.json())
+        .then((data) => setTicketPrice(data));
+    }
+  }, [concert, concertId, ticketType]);
+
   const handlePurchase = () => {
     // Logic to handle the purchase
-    console.log("Purchase:", { concertId, quantity, ticketType });
+    console.log("Purchase:", { concertId, quantity, ticketType, ticketPrice });
   };
 
   if (!concert) return <p>Loading...</p>;
@@ -58,14 +70,14 @@ const TicketPurchasePage = () => {
                 value={ticketType}
                 onChange={(e) => setTicketType(e.target.value)}
               >
-                <option value="Standard">Standard - $50</option>
-                <option value="VIP">VIP - $75</option>
-                <option value="Premium">Premium - $100</option>
+                <option value="GENERAL">Standard</option>
+                <option value="VIP">VIP</option>
+                <option value="PREMIUM">Premium</option>
               </Form.Select>
             </Col>
           </Form.Group>
           <Button variant="primary" onClick={handlePurchase} className="w-100">
-            Buy
+            Add to Cart (${ticketPrice.toFixed(2)})
           </Button>
         </Form>
       </Container>

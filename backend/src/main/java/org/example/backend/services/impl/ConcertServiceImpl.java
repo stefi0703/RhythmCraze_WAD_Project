@@ -1,10 +1,9 @@
 package org.example.backend.services.impl;
 
-import org.example.backend.domain.Artist;
-import org.example.backend.domain.Concert;
-import org.example.backend.domain.Venue;
+import org.example.backend.domain.*;
 import org.example.backend.dto.ArtistDto;
 import org.example.backend.dto.ConcertDto;
+import org.example.backend.dto.OrderDto;
 import org.example.backend.dto.VenueDto;
 import org.example.backend.repositories.ConcertRepository;
 import org.example.backend.services.ConcertService;
@@ -64,39 +63,6 @@ public class ConcertServiceImpl implements ConcertService {
     }
     //filter based on artist name, venue name, and date
     @Override
-//    public List<ConcertDto> filterConcerts(String artist, List<Date> dates, List<String> venueNames) {
-//        Stream<Concert> concertStream = concertRepository.findAllWithArtistAndVenues().stream();
-//
-//        if (artist != null && !artist.isEmpty()) {
-//            concertStream = concertStream.filter(concert -> concert.getArtist().getName().equalsIgnoreCase(artist));
-//        }
-//
-//        if (dates != null && !dates.isEmpty()) {
-//            concertStream = concertStream.filter(concert -> dates.containsAll(concert.getDates()));
-//        }
-//
-//        if (venueNames != null && !venueNames.isEmpty()) {
-//            concertStream = concertStream.filter(concert -> {
-//                List<String> concertVenueNames = concert.getVenues().stream()
-//                        .map(Venue::getName)
-//                        .collect(Collectors.toList());
-//                return concertVenueNames.containsAll(venueNames);
-//            });
-//        }
-//
-//        return concertStream.map(concert -> {
-//            // Extract required data from concert and create ConcertDto object
-//            String artistName = concert.getArtist().getName(); // Extract only the name of the artist
-//            ArtistDto artistDto = new ArtistDto(artistName, 0,null); // Create ArtistDto with only name populated
-//            List<VenueDto> venueDtos = concert.getVenues().stream()
-//                    .map(venue -> new VenueDto(venue.getName(), null, null))
-//                    .collect(Collectors.toList());
-//            List<Date> concertDates = concert.getDates();
-//            return new ConcertDto(concert.getName(), artistDto, venueDtos, concertDates, concert.getPrice());
-//        }).collect(Collectors.toList());
-//
-//    }
-
     public List<ConcertDto> filterConcerts(String artist, List<Date> dates, List<String> venueNames) {
         Stream<Concert> concertStream = concertRepository.findAllWithArtistAndVenues().stream();
 
@@ -172,6 +138,7 @@ public class ConcertServiceImpl implements ConcertService {
                 concert.getPrice()
         );
     }
+
 
 
 }

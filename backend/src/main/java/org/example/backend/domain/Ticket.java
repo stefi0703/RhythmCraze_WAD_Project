@@ -36,7 +36,7 @@ public class Ticket extends BaseEntity<Long> {
     }
 
     // Calculate ticket price based on ticket type and concert
-    private double calculatePrice(TicketType type, Concert concert) {
+    public double calculatePrice(TicketType type, Concert concert) {
         double basePrice = concert.getPrice();
         switch (type) {
             case GENERAL:
