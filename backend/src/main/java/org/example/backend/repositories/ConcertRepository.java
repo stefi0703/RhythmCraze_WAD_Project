@@ -17,4 +17,5 @@ public interface ConcertRepository extends CrudRepository<Concert, Long> {
 //    @Query("SELECT c FROM Concert c")
 //    @EntityGraph(value = "concert-with-artist-and-venues-and-dates", type = EntityGraph.EntityGraphType.LOAD)
 //    List<Concert> findAllWithArtistAndVenuesAndDates();
+
 }

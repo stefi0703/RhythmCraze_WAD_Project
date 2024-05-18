@@ -16,4 +16,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     // You can add custom query methods here if needed
     @Query("SELECT t FROM Ticket t WHERE t.concert.id = :concertId AND t.type = :type")
     Ticket findByConcertIdAndType(@Param("concertId") Long concertId, @Param("type") TicketType type);
+
+    @Query("SELECT t FROM Ticket t WHERE t.concert.id = :concertId")
+    Ticket findByConcertId(@Param("concertId") Long concertId);
 }

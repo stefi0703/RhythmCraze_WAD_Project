@@ -35,6 +35,10 @@ public class Ticket extends BaseEntity<Long> {
         this.price = calculatePrice(type, concert);
     }
 
+    public Ticket(Concert concert) {
+        this.concert = concert;
+    }
+
     // Calculate ticket price based on ticket type and concert
     public double calculatePrice(TicketType type, Concert concert) {
         double basePrice = concert.getPrice();

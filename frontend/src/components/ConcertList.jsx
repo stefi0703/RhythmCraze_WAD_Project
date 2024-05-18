@@ -17,8 +17,25 @@ const ConcertList = () => {
   };
   const navigate = useNavigate();
 
-  const handleBuyTickets = (concertId) => {
-    navigate(`/purchase/${concertId}`);
+  const handleBuyTickets = async (concertId) => {
+    try {
+      // Make a POST request to create a ticket for the specified concert
+      await Axios.post(
+        `http://localhost:8080/api/tickets/create?concertId=${concertId}`,
+        {}, // Empty request body
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Redirect to the purchase page or perform any other action upon successful ticket creation
+      navigate(`/purchase/${concertId}`);
+    } catch (error) {
+      console.error("Error creating ticket:", error);
+      // Handle ticket creation error
+    }
   };
 
   const handleFilter = async (artist, dates, venues) => {
