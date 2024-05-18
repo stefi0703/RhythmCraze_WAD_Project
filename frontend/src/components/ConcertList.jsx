@@ -77,8 +77,8 @@ const ConcertList = () => {
                   Dates:{" "}
                   {concert.dates
                     ? concert.dates
-                        .map((date) => new Date(date).toLocaleDateString())
-                        .join(", ")
+                      .map((date) => new Date(date).toLocaleDateString())
+                      .join(", ")
                     : "No dates available"}
                 </Card.Text>
                 <Card.Text>Price: ${concert.price}</Card.Text>
