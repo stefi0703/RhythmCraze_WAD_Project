@@ -1,9 +1,11 @@
 package org.example.backend.services.impl;
 
 import org.example.backend.domain.Concert;
+import org.example.backend.domain.OrderLineItem;
 import org.example.backend.domain.Ticket;
 import org.example.backend.domain.enums.TicketType;
 import org.example.backend.repositories.ConcertRepository;
+import org.example.backend.repositories.OrderLineItemRepository;
 import org.example.backend.repositories.TicketRepository;
 import org.example.backend.services.TicketService;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,13 @@ import java.util.Optional;
 @Service
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
-
     private final ConcertRepository concertRepository;
+    private final OrderLineItemRepository orderLineItemRepository;  // Assuming you have this repository
 
-    public TicketServiceImpl(TicketRepository ticketRepository, ConcertRepository concertRepository) {
+    public TicketServiceImpl(TicketRepository ticketRepository, ConcertRepository concertRepository, OrderLineItemRepository orderLineItemRepository) {
         this.ticketRepository = ticketRepository;
         this.concertRepository = concertRepository;
+        this.orderLineItemRepository = orderLineItemRepository;
     }
 
     @Override
@@ -44,36 +47,43 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public double calculateTicketPrice(Long concertId, TicketType ticketType) {
-        // Fetch ticket from repository based on concertId
-        Ticket ticket = ticketRepository.findByConcertIdAndType(concertId, ticketType);
-
-        // Calculate ticket price based on ticket type and any other factors
-        return ticket != null ? ticket.calculatePrice(ticketType, ticket.getConcert()) : 0; // Return 0 if ticket not found
-    }
-
-    @Override
-    public Ticket createTicket(Long concertId) {
-        // Fetch the concert from the database
-        Concert concert = concertRepository.findById(concertId).orElse(null);
-
-        // Check if the concert exists
-        if (concert == null) {
+    public OrderLineItem createAndSaveOrderLineItem(Long concertId, TicketType ticketType, int quantity) {
+        // Fetch the concert
+        Optional<Concert> optionalConcert = concertRepository.findById(concertId);
+        if (!optionalConcert.isPresent()) {
             throw new IllegalArgumentException("Concert not found with ID: " + concertId);
         }
+        Concert concert = optionalConcert.get();
 
-        // Check if a ticket already exists for the specified concert
-        Ticket existingTicket = ticketRepository.findByConcertId(concertId);
-        if (existingTicket != null) {
-            // If a ticket already exists, return it
-            return existingTicket;
+        // Compute the price for a single ticket
+        double pricePerTicket = computeTicketPriceByType(concert.getPrice(), ticketType);
+
+        // Create the ticket
+        Ticket ticket = new Ticket(ticketType, concert, pricePerTicket);
+
+        // Save the ticket
+        ticket = ticketRepository.save(ticket);
+
+        // Create an order line item for this ticket
+        OrderLineItem orderLineItem = new OrderLineItem();
+        orderLineItem.setTicket(ticket);
+        orderLineItem.setQty(quantity);
+
+        // Save the order line item
+        return orderLineItemRepository.save(orderLineItem);
+    }
+
+    private double computeTicketPriceByType(double basePrice, TicketType ticketType) {
+        switch (ticketType) {
+            case GENERAL:
+                return basePrice;  // no change for standard
+            case VIP:
+                return basePrice * 1.5;  // 50% more expensive
+            case PREMIUM:
+                return basePrice * 2;  // double the price
+            default:
+                throw new IllegalArgumentException("Invalid ticket type provided");
         }
-
-        // Create a new ticket
-        Ticket ticket = new Ticket(concert);
-
-        // Save the ticket to the database
-        return ticketRepository.save(ticket);
     }
 
 }

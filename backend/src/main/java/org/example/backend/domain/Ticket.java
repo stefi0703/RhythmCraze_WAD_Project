@@ -29,28 +29,14 @@ public class Ticket extends BaseEntity<Long> {
     private double premiumPriceIncrement =0.2;
 
     // Constructor
-    public Ticket(TicketType type, Concert concert) {
+    public Ticket(TicketType type, Concert concert, double price) {
         this.type = type;
         this.concert = concert;
-        this.price = calculatePrice(type, concert);
+        this.price = price;
     }
 
     public Ticket(Concert concert) {
         this.concert = concert;
     }
 
-    // Calculate ticket price based on ticket type and concert
-    public double calculatePrice(TicketType type, Concert concert) {
-        double basePrice = concert.getPrice();
-        switch (type) {
-            case GENERAL:
-                return basePrice;
-            case VIP:
-                return basePrice + basePrice * vipPriceIncrement;
-            case PREMIUM:
-                return basePrice + basePrice * premiumPriceIncrement;
-            default:
-                return basePrice;
-        }
-    }
 }

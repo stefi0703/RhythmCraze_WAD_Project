@@ -1,5 +1,6 @@
 package org.example.backend.services;
 
+import org.example.backend.domain.OrderLineItem;
 import org.example.backend.domain.Ticket;
 import org.example.backend.domain.enums.TicketType;
 
@@ -14,7 +15,5 @@ public interface TicketService {
 
     void deleteTicket(Long id);
 
-    double calculateTicketPrice(Long concertId, TicketType ticketType);
-
-    Ticket createTicket(Long concertId);
+    OrderLineItem createAndSaveOrderLineItem(Long concertId, TicketType ticketType, int quantity);
 }

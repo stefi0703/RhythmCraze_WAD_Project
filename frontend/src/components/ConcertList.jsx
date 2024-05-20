@@ -5,7 +5,7 @@ import CustomNavbar from "./CustomNavbar";
 import ConcertFilter from "./ConcertFilter";
 import { useNavigate } from "react-router-dom";
 import heartIcon from "./heart_icon.png";
-import './ConcertList.css';
+import "./ConcertList.css";
 
 const ConcertList = () => {
   const [concerts, setConcerts] = useState([]);
@@ -20,24 +20,24 @@ const ConcertList = () => {
   const navigate = useNavigate();
 
   const handleBuyTickets = async (concertId) => {
-    try {
-      // Make a POST request to create a ticket for the specified concert
-      await Axios.post(
-        `http://localhost:8080/api/tickets/create?concertId=${concertId}`,
-        {}, // Empty request body
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // try {
+    //   // Make a POST request to create a ticket for the specified concert
+    //   await Axios.post(
+    //     `http://localhost:8080/api/tickets/create?concertId=${concertId}`,
+    //     {}, // Empty request body
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
 
-      // Redirect to the purchase page or perform any other action upon successful ticket creation
-      navigate(`/purchase/${concertId}`);
-    } catch (error) {
-      console.error("Error creating ticket:", error);
-      // Handle ticket creation error
-    }
+    // Redirect to the purchase page or perform any other action upon successful ticket creation
+    navigate(`/purchase/${concertId}`);
+    // } catch (error) {
+    //   console.error("Error creating ticket:", error);
+    //   // Handle ticket creation error
+    // }
   };
 
   const handleFilter = async (artist, dates, venues) => {
@@ -74,7 +74,9 @@ const ConcertList = () => {
   const handleAddFavorite = (concert) => {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     const isAlreadyFavorite = favorites.find(
-      (fav) => fav.name === concert.name && fav.artist === (concert.artist ? concert.artist.name : "Unknown")
+      (fav) =>
+        fav.name === concert.name &&
+        fav.artist === (concert.artist ? concert.artist.name : "Unknown")
     );
 
     if (!isAlreadyFavorite) {
@@ -95,6 +97,7 @@ const ConcertList = () => {
         {concerts.length > 0 ? (
           concerts.map((concert, index) => (
             <Card key={concert.id || index} className="my-3">
+              {" "}
               <Card.Body>
                 <Card.Title>{concert.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
@@ -110,8 +113,8 @@ const ConcertList = () => {
                   Dates:{" "}
                   {concert.dates
                     ? concert.dates
-                      .map((date) => new Date(date).toLocaleDateString())
-                      .join(", ")
+                        .map((date) => new Date(date).toLocaleDateString())
+                        .join(", ")
                     : "No dates available"}
                 </Card.Text>
                 <Card.Text>Price: ${concert.price}</Card.Text>
@@ -131,7 +134,10 @@ const ConcertList = () => {
                   </Col>
                   <Col className="text-end">
                     <div className="favorite-container">
-                      <Button variant="link" onClick={() => handleAddFavorite(concert)}>
+                      <Button
+                        variant="link"
+                        onClick={() => handleAddFavorite(concert)}
+                      >
                         <img
                           src={heartIcon}
                           alt="Favorite"
