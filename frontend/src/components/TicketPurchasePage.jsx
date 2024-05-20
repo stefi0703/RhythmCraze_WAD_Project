@@ -98,7 +98,6 @@
 
 // export default TicketPurchasePage;
 
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
@@ -111,6 +110,7 @@ const TicketPurchasePage = () => {
   const [quantity, setQuantity] = useState(1);
   const [ticketType, setTicketType] = useState("");
   const [modalShow, setModalShow] = useState(false); // State for managing modal visibility
+  const [ticketPrice, setTicketPrice] = useState(0);
 
   useEffect(() => {
     // Fetch concert details by ID
@@ -118,6 +118,17 @@ const TicketPurchasePage = () => {
       .then((response) => response.json())
       .then((data) => setConcert(data));
   }, [concertId]);
+
+  useEffect(() => {
+    // Fetch ticket price when concert and ticket type are selected
+    if (concert && ticketType) {
+      fetch(
+        `http://localhost:8080/api/tickets/prices?concertId=${concertId}&ticketType=${ticketType}`
+      )
+        .then((response) => response.json())
+        .then((data) => setTicketPrice(data));
+    }
+  }, [concert, concertId, ticketType]);
 
   const handlePurchase = () => {
     // Logic to handle the purchase
@@ -162,9 +173,9 @@ const TicketPurchasePage = () => {
                 value={ticketType}
                 onChange={(e) => setTicketType(e.target.value)}
               >
-                <option value="Standard">Standard - $50</option>
-                <option value="VIP">VIP - $75</option>
-                <option value="Premium">Premium - $100</option>
+                <option value="GENERAL">Standard</option>
+                <option value="VIP">VIP</option>
+                <option value="PREMIUM">Premium</option>
               </Form.Select>
             </Col>
           </Form.Group>
@@ -174,15 +185,12 @@ const TicketPurchasePage = () => {
               onClick={handlePurchase}
               className="custom-buy-button"
             >
-              Buy
+              Buy (${ticketPrice.toFixed(2)})
             </Button>
           </div>
         </Form>
       </Container>
-      <LoginModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+      <LoginModal show={modalShow} onHide={() => setModalShow(false)} />
       <style>
         {`
           .custom-buy-button {
@@ -198,4 +206,3 @@ const TicketPurchasePage = () => {
 };
 
 export default TicketPurchasePage;
-

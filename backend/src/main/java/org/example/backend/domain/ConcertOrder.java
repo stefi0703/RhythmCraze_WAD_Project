@@ -19,4 +19,12 @@ import java.util.Set;
 public class ConcertOrder extends BaseEntity<Long> {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<OrderLineItem> orderLineItems = new HashSet<>();
+
+    @ManyToOne // Many orders belong to one user
+    @JoinColumn(name = "user_id") // Specify the foreign key column
+    private User user; // Reference to the user who placed the order
+
+    public void addLineItem(OrderLineItem lineItem) {
+        this.orderLineItems.add(lineItem);
+    }
 }
