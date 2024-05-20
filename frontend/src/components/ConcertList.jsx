@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Card, Button } from "react-bootstrap";
+import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import CustomNavbar from "./CustomNavbar";
 import ConcertFilter from "./ConcertFilter";
 import { useNavigate } from "react-router-dom";
+import heartIcon from "./heart_icon.png";
+import './ConcertList.css';
 
 const ConcertList = () => {
   const [concerts, setConcerts] = useState([]);
@@ -52,6 +54,21 @@ const ConcertList = () => {
     fetchConcerts();
   }, []);
 
+  const handleAddFavorite = (concert) => {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const isAlreadyFavorite = favorites.find(
+      (fav) => fav.name === concert.name && fav.artist === (concert.artist ? concert.artist.name : "Unknown")
+    );
+
+    if (!isAlreadyFavorite) {
+      favorites.push({
+        name: concert.name,
+        artist: concert.artist ? concert.artist.name : "Unknown",
+      });
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+  };
+
   return (
     <>
       <CustomNavbar />
@@ -61,7 +78,6 @@ const ConcertList = () => {
         {concerts.length > 0 ? (
           concerts.map((concert, index) => (
             <Card key={concert.id || index} className="my-3">
-              {" "}
               <Card.Body>
                 <Card.Title>{concert.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
@@ -82,12 +98,36 @@ const ConcertList = () => {
                     : "No dates available"}
                 </Card.Text>
                 <Card.Text>Price: ${concert.price}</Card.Text>
-                <Button
-                  variant="primary"
-                  onClick={() => handleBuyTickets(concert.id)}
-                >
-                  Buy Tickets
-                </Button>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleBuyTickets(concert.id)}
+                      style={{
+                        backgroundColor: "black",
+                        color: "#FAFAED",
+                        borderColor: "black",
+                      }}
+                    >
+                      Buy Tickets
+                    </Button>
+                  </Col>
+                  <Col className="text-end">
+                    <div className="favorite-container">
+                      <Button variant="link" onClick={() => handleAddFavorite(concert)}>
+                        <img
+                          src={heartIcon}
+                          alt="Favorite"
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                          }}
+                        />
+                      </Button>
+                      <div className="favorite-text">Add to favorite</div>
+                    </div>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           ))

@@ -1,38 +1,3 @@
-// import React from "react";
-// import { Container, Row, Col } from "react-bootstrap";
-// import CustomNavbar from "./CustomNavbar";
-
-// const Home = () => {
-//   return (
-//     <div>
-//       <CustomNavbar />
-//       <div className="bg-dark text-light py-5">
-//         <Container>
-//           <Row>
-//             <Col>
-//               <h1>Welcome to RhythmCraze!</h1>
-//               <p>
-//                 Find and book tickets for concerts, sports events, theater
-//                 shows, and more!
-//               </p>
-//             </Col>
-//           </Row>
-//         </Container>
-//       </div>
-//       <Container>
-//         <Row>
-//           <Col>
-//             <h2>Popular Events</h2>
-
-//           </Col>
-//         </Row>
-//       </Container>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
 import React, { useRef } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CustomNavbar from "./CustomNavbar";
@@ -219,8 +184,8 @@ const Home = () => {
         <Container>
           <Row>
             <Col>
-              <h1>Welcome to RhythmCraze!</h1>
-              <p>
+              <h1 style={{ color: "#FAFAED" }}>Welcome to RhythmCraze!</h1>
+              <p style={{ color: "#FAFAED" }}>
                 Find and book tickets for concerts, sports events, theater
                 shows, and more!
               </p>

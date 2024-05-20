@@ -11,6 +11,7 @@ import VenueList from "./components/VenueList";
 import ApiSearch from "./components/ApiSearch";
 import SearchResultPage from "./components/SearchResultPage";
 import TicketPurchasePage from "./components/TicketPurchasePage";
+import MyAccount from "./components/MyAccount";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/artists" element={<ArtistList />} />
         <Route path="/venues" element={<VenueList />} />
         <Route path="/apiSearch" element={<ApiSearch />} />
+        <Route path="/account" element={<MyAccount />} />
         <Route path="/purchase/:concertId" element={<TicketPurchasePage />} />
         <Route
           path="/search-results/:term"

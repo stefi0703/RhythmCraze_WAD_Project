@@ -1,0 +1,88 @@
+/* MyAccount.css */
+.favorites-section {
+    background-color: #FAFAED;
+    color: black;
+    border-top: 1px solid #ddd;
+    padding: 20px 0;
+    border-radius: 10px;
+}
+
+.favorites-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorites-title h4 {
+    margin-right: 10px;
+}
+
+.favorites {
+    display: flex;
+    justify-content: space-around;
+}
+
+.favorites a {
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-size: large;
+}
+
+.favorites a:hover {
+    color: #e0e0e0;
+}
+
+.favorite-item {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.favorites-list {
+    display: none;
+    position: absolute;
+    /* background-color: #f9f9f9; */
+    background-color: #FAFAED;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.favorite-item:hover .favorites-list {
+    display: block;
+}
+
+.favorite-dropdown-item {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.favorite-dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.delete-button {
+    margin-left: 10px;
+    background-color: #FAFAED !important;
+    color: black !important;
+    /* border: none !important; */
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    border-color: black !important;
+    border-width: 1px !important;
+}
+
+.delete-button:hover {
+    background-color: black !important;
+    color: #FAFAED !important;
+}
