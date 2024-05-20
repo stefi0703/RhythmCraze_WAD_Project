@@ -11,9 +11,10 @@ public interface TicketService {
 
     Ticket getTicketById(Long id);
 
-    Ticket saveTicket(Ticket ticket);
 
     void deleteTicket(Long id);
 
     OrderLineItem createAndSaveOrderLineItem(Long concertId, TicketType ticketType, int quantity);
+
+    Ticket save(Ticket ticket);
 }

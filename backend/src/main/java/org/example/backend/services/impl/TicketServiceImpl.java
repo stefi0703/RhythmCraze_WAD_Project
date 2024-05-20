@@ -37,7 +37,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket saveTicket(Ticket ticket) {
+    public Ticket save(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
 
@@ -48,30 +48,32 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public OrderLineItem createAndSaveOrderLineItem(Long concertId, TicketType ticketType, int quantity) {
-        // Fetch the concert
         Optional<Concert> optionalConcert = concertRepository.findById(concertId);
         if (!optionalConcert.isPresent()) {
             throw new IllegalArgumentException("Concert not found with ID: " + concertId);
         }
         Concert concert = optionalConcert.get();
 
-        // Compute the price for a single ticket
+        // Find existing ticket or create a new one
+        Optional<Ticket> existingTicket = ticketRepository.findByConcertAndType(concert, ticketType);
+        Ticket ticket;
         double pricePerTicket = computeTicketPriceByType(concert.getPrice(), ticketType);
-
-        // Create the ticket
-        Ticket ticket = new Ticket(ticketType, concert, pricePerTicket);
-
-        // Save the ticket
+        ticket = new Ticket(ticketType, concert, pricePerTicket);
         ticket = ticketRepository.save(ticket);
+//        if (existingTicket.isPresent()) {
+//            ticket = existingTicket.get();
+//        } else {
+//            double pricePerTicket = computeTicketPriceByType(concert.getPrice(), ticketType);
+//            ticket = new Ticket(ticketType, concert, pricePerTicket);
+//            ticket = ticketRepository.save(ticket);
+//        }
 
-        // Create an order line item for this ticket
         OrderLineItem orderLineItem = new OrderLineItem();
         orderLineItem.setTicket(ticket);
         orderLineItem.setQty(quantity);
-
-        // Save the order line item
         return orderLineItemRepository.save(orderLineItem);
     }
+
 
     private double computeTicketPriceByType(double basePrice, TicketType ticketType) {
         switch (ticketType) {

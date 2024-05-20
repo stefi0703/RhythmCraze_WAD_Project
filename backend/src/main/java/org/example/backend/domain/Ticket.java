@@ -22,7 +22,8 @@ public class Ticket extends BaseEntity<Long> {
     private TicketType type;
     private double price;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "concert_id")
     private Concert concert;
 
     private double vipPriceIncrement = 0.5;

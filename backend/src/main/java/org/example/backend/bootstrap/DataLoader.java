@@ -3,6 +3,7 @@ package org.example.backend.bootstrap;
 import org.example.backend.domain.*;
 import org.example.backend.domain.enums.Genre;
 import org.example.backend.domain.enums.Role;
+import org.example.backend.domain.enums.TicketType;
 import org.example.backend.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,14 +20,16 @@ public class DataLoader implements CommandLineRunner {
     private final VenueService venueService;
     private final SongService songService;
     private final UserService userService;
+    private final TicketService ticketService;
 
     public DataLoader(ConcertService concertService, ArtistService artistService,
-                      VenueService venueService, SongService songService, UserService userService) {
+                      VenueService venueService, SongService songService, UserService userService, TicketService ticketService) {
         this.concertService = concertService;
         this.artistService = artistService;
         this.venueService = venueService;
         this.songService = songService;
         this.userService = userService;
+        this.ticketService = ticketService;
     }
 
     @Override
@@ -81,6 +84,16 @@ public class DataLoader implements CommandLineRunner {
 
 // Save concerts using concertService
         concertService.saveAll(concerts);
+
+//        //add a ticket
+//        Ticket ticket = new Ticket();
+//        ticket.setConcert(concerts.get(0));
+//        ticket.setPrice(50.0);
+//        ticket.setType(TicketType.VIP);
+//        ticketService.save(ticket);
+
+
+
 
         // Adding some users
         PasswordEncoder bcrypt = new BCryptPasswordEncoder();

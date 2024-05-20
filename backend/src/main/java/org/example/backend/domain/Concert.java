@@ -63,7 +63,7 @@ public class Concert extends BaseEntity<Long> {
         this.price = price;
     }
 
-    @OneToOne(mappedBy = "concert")
-    private Ticket ticket;
+    @OneToMany(mappedBy = "concert")
+    private List<Ticket> tickets;
 
 }
