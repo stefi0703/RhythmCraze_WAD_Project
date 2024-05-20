@@ -37,4 +37,25 @@ public class Artist extends BaseEntity<Long> {
         this.age = age;
     }
 
+    //implement custom equals and hashcode methods
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Artist)) return false;
+        if (!super.equals(o)) return false;
+
+        Artist artist = (Artist) o;
+
+        if (age != artist.age) return false;
+        return name != null ? name.equals(artist.name) : artist.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + age;
+        return result;
+    }
+
 }

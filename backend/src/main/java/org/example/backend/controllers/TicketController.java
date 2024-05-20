@@ -22,13 +22,19 @@ public class TicketController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<OrderLineItemDto> createOrderLineItem(@RequestParam Long concertId, @RequestParam TicketType ticketType, @RequestParam int quantity) {
+    public ResponseEntity<OrderLineItemDto> createOrderLineItem(
+            @RequestParam Long concertId,
+            @RequestParam TicketType ticketType,
+            @RequestParam int quantity,
+            @RequestParam String username) {  // Use username to identify the user
+
         try {
-            OrderLineItem orderLineItem = ticketService.createAndSaveOrderLineItem(concertId, ticketType, quantity);
+            OrderLineItem orderLineItem = ticketService.createAndSaveOrderLineItem(concertId, ticketType, quantity, username);
             return ResponseEntity.status(HttpStatus.CREATED).body(OrderLineItemDto.from(orderLineItem));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
 
 }

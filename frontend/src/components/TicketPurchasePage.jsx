@@ -23,6 +23,37 @@ const TicketPurchasePage = () => {
       );
   }, [concertId]);
 
+  function parseJwt(token) {
+    try {
+      const base64Url = token.split(".")[1]; // Access the payload part of the token
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error("Failed to decode JWT:", error);
+      return null;
+    }
+  }
+
+  function getUsernameFromToken() {
+    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT from local storage
+    if (!token) {
+      console.log("No token found");
+      return null;
+    }
+
+    const decodedToken = parseJwt(token);
+    return decodedToken ? decodedToken.sub : null; // 'sub' is the standard claim for the subject (i.e., username)
+  }
+
   // useEffect(() => {
   //   if (concert && ticketType) {
   //     setIsLoading(true);
@@ -52,10 +83,16 @@ const TicketPurchasePage = () => {
       alert("Please select ticket type and quantity.");
       return;
     }
+    const username = getUsernameFromToken();
+
+    if (!username) {
+      console.error("No user ID found in token");
+      return;
+    }
 
     setIsLoading(true);
     fetch(
-      `http://localhost:8080/api/tickets/create?concertId=${concertId}&ticketType=${ticketType}&quantity=${quantity}`,
+      `http://localhost:8080/api/tickets/create?concertId=${concertId}&ticketType=${ticketType}&quantity=${quantity}&username=${username}`,
       {
         method: "POST",
         headers: {
@@ -133,7 +170,7 @@ const TicketPurchasePage = () => {
               disabled={isLoading}
               className="custom-buy-button"
             >
-              {isLoading ? "Processing..." : `Buy `}
+              {isLoading ? "Processing..." : `Add to Cart`}
             </Button>
           </div>
         </Form>

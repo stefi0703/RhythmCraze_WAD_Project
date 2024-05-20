@@ -27,23 +27,22 @@ function Login() {
           "http://localhost:8080/users/login",
           values
         );
-       // console.log(response.data);
+        // console.log(response.data);
         if (response.status === 200) {
-          localStorage.setItem('jwtToken', response.data);
-          alert('Login successful');
+          localStorage.setItem("jwtToken", response.data);
+          alert("Login successful");
           console.log(response.data);
           window.location.href = "/"; // Redirect to home page
-
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          alert("Invalid username or password");
+        } else {
+          alert("An error occurred");
+        }
       }
-  } catch (error) {
-      if (error.response && error.response.status === 401) {
-          alert('Invalid username or password');
-      } else {
-          alert('An error occurred');
-      }
-  }
-}
-});
+    },
+  });
 
   return (
     <>

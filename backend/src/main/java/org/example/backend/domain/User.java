@@ -36,6 +36,10 @@ public class User extends BaseEntity<Long> implements UserDetails {
   private String username;
   private String password;
 
+  //list of orders
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ConcertOrder> orders = new ArrayList<>();
+
   @ElementCollection(fetch = FetchType.EAGER)
   private List<Role> roles = new ArrayList<>();
 
@@ -44,7 +48,11 @@ public class User extends BaseEntity<Long> implements UserDetails {
     this.password = password;
   }
 
-  @Override
+    public User(Long userId) {
+        this.id = userId;
+    }
+
+    @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     for(Role role : roles)

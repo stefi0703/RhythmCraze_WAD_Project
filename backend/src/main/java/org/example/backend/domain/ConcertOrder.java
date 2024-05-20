@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.example.backend.domain.base.BaseEntity;
+import org.example.backend.domain.enums.OrderStatus;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,11 @@ public class ConcertOrder extends BaseEntity<Long> {
     @ManyToOne // Many orders belong to one user
     @JoinColumn(name = "user_id") // Specify the foreign key column
     private User user; // Reference to the user who placed the order
+
+    //add a status field to the ConcertOrder class
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
 
     public void addLineItem(OrderLineItem lineItem) {
         this.orderLineItems.add(lineItem);

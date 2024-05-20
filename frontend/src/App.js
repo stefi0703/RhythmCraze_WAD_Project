@@ -12,6 +12,7 @@ import ApiSearch from "./components/ApiSearch";
 import SearchResultPage from "./components/SearchResultPage";
 import TicketPurchasePage from "./components/TicketPurchasePage";
 import MyAccount from "./components/MyAccount";
+import OrderDetails from "./components/OrderDetails";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
         <Route path="/venues" element={<VenueList />} />
         <Route path="/apiSearch" element={<ApiSearch />} />
         <Route path="/account" element={<MyAccount />} />
+        <Route path="/orders/:orderId" element={<OrderDetails />} />{" "}
+        {/* Dynamic Order ID */}
         <Route path="/purchase/:concertId" element={<TicketPurchasePage />} />
         <Route
           path="/search-results/:term"

@@ -3,21 +3,24 @@ package org.example.backend.services.impl;
 import org.example.backend.domain.ConcertOrder;
 import org.example.backend.domain.OrderLineItem;
 import org.example.backend.domain.Ticket;
+import org.example.backend.domain.User;
+import org.example.backend.domain.enums.OrderStatus;
 import org.example.backend.dto.OrderDto;
 import org.example.backend.repositories.ConcertOrderRepository;
 import org.example.backend.repositories.TicketRepository;
+import org.example.backend.repositories.UserRepository;
 import org.example.backend.services.ConcertOrderService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConcertOrderServiceImpl implements ConcertOrderService {
     private final ConcertOrderRepository concertOrderRepository;
+    private final UserRepository userRepository;
 
-    private final TicketRepository ticketRepository;
-
-    public ConcertOrderServiceImpl(ConcertOrderRepository concertOrderRepository,TicketRepository ticketRepository) {
+    public ConcertOrderServiceImpl(ConcertOrderRepository concertOrderRepository, UserRepository userRepository) {
         this.concertOrderRepository = concertOrderRepository;
-        this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -26,18 +29,37 @@ public class ConcertOrderServiceImpl implements ConcertOrderService {
     }
 
     @Override
-    public void addToCart(OrderDto request) {
-        // Logic to find or create an order
-        ConcertOrder order = concertOrderRepository.findOrCreateOrder(request.getUserId());
+    public ConcertOrder findOrCreateOrder(Long userId) {
+        // Ensure that userId is not null
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null");
+        }
 
-        // Logic to create order line item
-        Ticket ticket = ticketRepository.findById(request.getTicketId()).orElseThrow(() -> new RuntimeException("Ticket not found"));
-        OrderLineItem lineItem = new OrderLineItem(ticket, request.getQuantity());
+        return concertOrderRepository.findTopByUserIdAndStatus(userId, OrderStatus.ACTIVE)
+                .orElseGet(() -> {
+                    User user = userRepository.findById(userId).orElseThrow(
+                            () -> new UsernameNotFoundException("User not found with ID: " + userId)
+                    );
+                    ConcertOrder newOrder = new ConcertOrder();
+                    newOrder.setUser(user); // Set the user retrieved from the database
+                    newOrder.setStatus(OrderStatus.ACTIVE);
+                    return concertOrderRepository.save(newOrder); // Ensure the new order is saved
+                });
+    }
 
-        // Add line item to order
+
+    @Override
+    public void addOrderLineItemToOrder(OrderLineItem lineItem, Long orderId) {
+        ConcertOrder order = concertOrderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalStateException("Order not found"));
         order.addLineItem(lineItem);
-
-        // Save order
         concertOrderRepository.save(order);
+    }
+
+    @Override
+    public OrderDto getOrderDtoById(Long orderId) {
+        ConcertOrder order = concertOrderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalStateException("Order not found"));
+        return OrderDto.from(order);
     }
 }

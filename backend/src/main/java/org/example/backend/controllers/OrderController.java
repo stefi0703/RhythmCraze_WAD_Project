@@ -1,5 +1,6 @@
 package org.example.backend.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.backend.dto.OrderDto;
 import org.example.backend.services.ConcertOrderService;
 import org.springframework.http.HttpStatus;
@@ -16,15 +17,17 @@ public class OrderController {
         this.concertOrderService = concertOrderService;
     }
 
-    @PostMapping("/add-to-cart")
-    public ResponseEntity<String> addToCart(@RequestBody OrderDto request) {
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
         try {
-            concertOrderService.addToCart(request);
-            return ResponseEntity.ok("Item added to cart successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding to cart: " + e.getMessage());
+            OrderDto order = concertOrderService.getOrderDtoById(orderId);
+            return ResponseEntity.ok(order);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
+
+
 
     // Other methods for managing orders, such as retrieving orders, updating orders, etc.
 }
