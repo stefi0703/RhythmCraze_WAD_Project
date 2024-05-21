@@ -85,6 +85,9 @@ const ConcertList = () => {
         artist: concert.artist ? concert.artist.name : "Unknown",
       });
       localStorage.setItem("favorites", JSON.stringify(favorites));
+      alert("Concert added to 'My Favorites'");
+    } else {
+      alert("Concert already added to 'My Favorites'");
     }
   };
 

@@ -194,6 +194,18 @@ function RegisterForm() {
                     type="submit"
                     variant="success"
                     disabled={!isValid || isSubmitting}
+                    style={{ backgroundColor: "black", color: "#FAFAED", borderColor: "black", marginTop: "5px" }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = "#FAFAED";
+                      e.target.style.color = "black";
+                      e.target.style.borderColor = "#FAFAED";
+                      e.target.style.boxShadow = "0 4px 4px rgba(0, 0, 0, 0.5)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = "black";
+                      e.target.style.color = "#FAFAED";
+                      e.target.style.boxShadow = "none";
+                    }}
                   >
                     {isSubmitting ? "Submitting..." : "Submit form"}
                   </Button>

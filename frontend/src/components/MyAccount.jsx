@@ -1,21 +1,41 @@
 import React, { useState, useEffect } from "react";
 import CustomNavbar from "./CustomNavbar";
 import { Container, Button } from "react-bootstrap";
-import heartIcon from "./heart_icon.png";
 import './MyAccount.css';
+import Footer from "./Footer";
 
 const MyAccount = () => {
-    const [favorites, setFavorites] = useState([]);
+    const [concertFavorites, setConcertFavorites] = useState([]);
+    const [artistFavorites, setArtistFavorites] = useState([]);
+    const [venueFavorites, setVenueFavorites] = useState([]);
 
     useEffect(() => {
-        const favoritesData = JSON.parse(localStorage.getItem("favorites")) || [];
-        setFavorites(favoritesData);
+        const concertFavoritesData = JSON.parse(localStorage.getItem("favorites")) || [];
+        setConcertFavorites(concertFavoritesData);
+
+        const artistFavoritesData = JSON.parse(localStorage.getItem("artistFavorites")) || [];
+        setArtistFavorites(artistFavoritesData);
+
+        const venueFavoritesData = JSON.parse(localStorage.getItem("venueFavorites")) || [];
+        setVenueFavorites(venueFavoritesData);
     }, []);
 
-    const handleDeleteFavorite = (indexToDelete) => {
-        const updatedFavorites = favorites.filter((_, index) => index !== indexToDelete);
-        setFavorites(updatedFavorites);
+    const handleDeleteConcertFavorite = (indexToDelete) => {
+        const updatedFavorites = concertFavorites.filter((_, index) => index !== indexToDelete);
+        setConcertFavorites(updatedFavorites);
         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    };
+
+    const handleDeleteArtistFavorite = (indexToDelete) => {
+        const updatedFavorites = artistFavorites.filter((_, index) => index !== indexToDelete);
+        setArtistFavorites(updatedFavorites);
+        localStorage.setItem("artistFavorites", JSON.stringify(updatedFavorites));
+    };
+
+    const handleDeleteVenueFavorite = (indexToDelete) => {
+        const updatedFavorites = venueFavorites.filter((_, index) => index !== indexToDelete);
+        setVenueFavorites(updatedFavorites);
+        localStorage.setItem("venueFavorites", JSON.stringify(updatedFavorites));
     };
 
     return (
@@ -37,15 +57,15 @@ const MyAccount = () => {
                 <div className="favorites">
                     <div className="favorite-item">
                         <a href="#">Concerts</a>
-                        {favorites.length > 0 && (
+                        {concertFavorites.length > 0 && (
                             <div className="favorites-list">
-                                {favorites.map((favorite, index) => (
+                                {concertFavorites.map((favorite, index) => (
                                     <div key={index} className="favorite-dropdown-item">
                                         {favorite.name} - {favorite.artist}
                                         <Button
                                             className="delete-button"
                                             size="sm"
-                                            onClick={() => handleDeleteFavorite(index)}
+                                            onClick={() => handleDeleteConcertFavorite(index)}
                                         >
                                             Delete
                                         </Button>
@@ -54,16 +74,53 @@ const MyAccount = () => {
                             </div>
                         )}
                     </div>
-                    <a href="#">Artists</a>
-                    <a href="#">Venues</a>
+                    <div className="favorite-item">
+                        <a href="#">Artists</a>
+                        {artistFavorites.length > 0 && (
+                            <div className="favorites-list">
+                                {artistFavorites.map((favorite, index) => (
+                                    <div key={index} className="favorite-dropdown-item">
+                                        {favorite.name}
+                                        <Button
+                                            className="delete-button"
+                                            size="sm"
+                                            onClick={() => handleDeleteArtistFavorite(index)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="favorite-item">
+                        <a href="#">Venues</a>
+                        {venueFavorites.length > 0 && (
+                            <div className="favorites-list">
+                                {venueFavorites.map((favorite, index) => (
+                                    <div key={index} className="favorite-dropdown-item">
+                                        {favorite.name}
+                                        <Button
+                                            className="delete-button"
+                                            size="sm"
+                                            onClick={() => handleDeleteVenueFavorite(index)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </Container>
+            <p></p>
+            <Footer />
         </>
     );
 };
 
 export default MyAccount;
-
 
 
 
