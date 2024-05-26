@@ -12,6 +12,7 @@ const TicketPurchasePage = () => {
   const [modalShow, setModalShow] = useState(false);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     // Fetch concert details by ID
@@ -23,7 +24,13 @@ const TicketPurchasePage = () => {
       );
   }, [concertId]);
 
-  function parseJwt(token) {
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT from local storage
+    if (!token) {
+      console.log("No token found");
+      return;
+    }
+
     try {
       const base64Url = token.split(".")[1]; // Access the payload part of the token
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -36,55 +43,18 @@ const TicketPurchasePage = () => {
           .join("")
       );
 
-      return JSON.parse(jsonPayload);
+      const decodedToken = JSON.parse(jsonPayload);
+      setUsername(decodedToken.sub); // 'sub' is the standard claim for the subject (i.e., username)
     } catch (error) {
       console.error("Failed to decode JWT:", error);
-      return null;
     }
-  }
-
-  function getUsernameFromToken() {
-    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT from local storage
-    if (!token) {
-      console.log("No token found");
-      return null;
-    }
-
-    const decodedToken = parseJwt(token);
-    return decodedToken ? decodedToken.sub : null; // 'sub' is the standard claim for the subject (i.e., username)
-  }
-
-  // useEffect(() => {
-  //   if (concert && ticketType) {
-  //     setIsLoading(true);
-  //     fetch(
-  //       `http://localhost:8080/api/tickets/prices?concertId=${concertId}&ticketType=${ticketType}`
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log("Ticket price data:", data); // Log to check what's being received
-  //         if (typeof data === "number") {
-  //           setTicketPrice(data);
-  //         } else {
-  //           console.error("Invalid ticket price data:", data);
-  //           setTicketPrice(0); // Set a default or error state as appropriate
-  //         }
-  //         setIsLoading(false);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching ticket prices:", error);
-  //         setIsLoading(false);
-  //       });
-  //   }
-  // }, [concert, concertId, ticketType]);
+  }, []);
 
   const handlePurchase = () => {
     if (!ticketType || quantity <= 0) {
       alert("Please select ticket type and quantity.");
       return;
     }
-
-    const username = getUsernameFromToken();
 
     if (!username) {
       // No token found, show the modal
