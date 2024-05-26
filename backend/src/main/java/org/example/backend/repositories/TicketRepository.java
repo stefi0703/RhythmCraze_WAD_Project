@@ -24,4 +24,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
 
     Optional<Ticket> findByConcertAndType(Concert concert, TicketType ticketType);
+    @Query("SELECT t FROM Ticket t WHERE t.type = :type")
+    Optional<Ticket> findByType(TicketType type);
 }

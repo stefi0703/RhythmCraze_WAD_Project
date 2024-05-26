@@ -11,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.backend.domain.OrderLineItem;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
@@ -35,6 +39,27 @@ public class TicketController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @PostMapping("/{ticketId}/{newType}/updatePriceByType")
+    public ResponseEntity<TicketDto> updateTicketPriceByType(
+            @PathVariable Long ticketId,
+            @PathVariable TicketType newType) {
+        try {
+            Ticket updatedTicket = ticketService.updateTicketPriceByType(ticketId, newType);
+            return ResponseEntity.ok(TicketDto.from(updatedTicket));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getTicketTypes() {
+        List<String> ticketTypes = Arrays.stream(TicketType.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketTypes);
+    }
+
 
 
 }

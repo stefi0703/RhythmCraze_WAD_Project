@@ -126,4 +126,25 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    @Override
+    @Transactional
+    public Ticket updateTicketPriceByType(Long ticketId, TicketType newType) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found with ID: " + ticketId));
+
+        // Fetch the base price of the concert
+        double basePrice = ticket.getConcert().getPrice();
+
+        // Compute the new price based on the selected ticket type
+        double newPrice = computeTicketPriceByType(basePrice, newType);
+
+        // Update the ticket type and price
+        ticket.setType(newType);
+        ticket.setPrice(newPrice);
+
+        // Save and return the updated ticket
+        return ticketRepository.save(ticket);
+    }
+
+
 }

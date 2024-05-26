@@ -21,4 +21,8 @@ public interface TicketService {
 
     @Transactional
     public OrderLineItem createAndSaveOrderLineItem(Long concertId, TicketType ticketType, int quantity, String username);
+
+
+    @Transactional
+    Ticket updateTicketPriceByType(Long ticketId, TicketType newType);
 }
