@@ -19,12 +19,13 @@ import java.io.Serializable;
 public class TicketDto extends BaseDto implements Serializable {
     private TicketType type;
     private double price;
+    private String name; // Add a field for concert name
 
     public static TicketDto from(Ticket ticket) {
         return TicketDto.builder()
                 .type(ticket.getType())
                 .price(ticket.getPrice())
+                .name(ticket.getConcert().getName()) // Set the concert name
                 .build();
     }
-    // private ConcertDto concert;
 }

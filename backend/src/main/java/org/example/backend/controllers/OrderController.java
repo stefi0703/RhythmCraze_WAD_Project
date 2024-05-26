@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -27,6 +29,11 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<OrderDto>> getOrdersByUsername(@PathVariable String username) {
+        List<OrderDto> orders = concertOrderService.getOrdersByUsername(username);
+        return ResponseEntity.ok(orders);
+    }
 
 
 

@@ -13,6 +13,9 @@ import org.example.backend.services.ConcertOrderService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ConcertOrderServiceImpl implements ConcertOrderService {
     private final ConcertOrderRepository concertOrderRepository;
@@ -35,7 +38,7 @@ public class ConcertOrderServiceImpl implements ConcertOrderService {
             throw new IllegalArgumentException("User ID must not be null");
         }
 
-        return concertOrderRepository.findTopByUserIdAndStatus(userId, OrderStatus.ACTIVE)
+        return concertOrderRepository.findByUserIdAndStatus(userId, OrderStatus.ACTIVE)
                 .orElseGet(() -> {
                     User user = userRepository.findById(userId).orElseThrow(
                             () -> new UsernameNotFoundException("User not found with ID: " + userId)
@@ -61,5 +64,17 @@ public class ConcertOrderServiceImpl implements ConcertOrderService {
         ConcertOrder order = concertOrderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalStateException("Order not found"));
         return OrderDto.from(order);
+    }
+
+    @Override
+    public List<OrderDto> getOrdersByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+
+        List<ConcertOrder> orders = concertOrderRepository.findByUser(user);
+        return orders.stream().map(OrderDto::from).collect(Collectors.toList());
     }
 }
