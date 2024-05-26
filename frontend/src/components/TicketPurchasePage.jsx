@@ -83,10 +83,12 @@ const TicketPurchasePage = () => {
       alert("Please select ticket type and quantity.");
       return;
     }
+
     const username = getUsernameFromToken();
 
     if (!username) {
-      console.error("No user ID found in token");
+      // No token found, show the modal
+      setModalShow(true);
       return;
     }
 
@@ -106,8 +108,8 @@ const TicketPurchasePage = () => {
       })
       .then((orderLineItem) => {
         console.log("Order Line Item created:", orderLineItem);
-        setModalShow(true);
         setIsLoading(false);
+        alert("Added to cart successfully!"); // Show alert for successful purchase
       })
       .catch((error) => {
         console.error("Error during ticket purchase:", error);
